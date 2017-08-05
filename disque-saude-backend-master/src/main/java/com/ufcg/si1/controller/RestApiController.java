@@ -2,6 +2,8 @@ package com.ufcg.si1.controller;
 
 import br.edu.ufcg.Hospital;
 import com.ufcg.si1.model.*;
+import com.ufcg.si1.model.queixa.Aberta;
+import com.ufcg.si1.model.queixa.Queixa;
 import com.ufcg.si1.service.*;
 import com.ufcg.si1.util.CustomErrorType;
 import com.ufcg.si1.util.ObjWrapper;
@@ -116,7 +118,11 @@ public class RestApiController {
 
     @RequestMapping(value = "/queixa/fechamento", method = RequestMethod.POST)
     public ResponseEntity<?> fecharQueixa(@RequestBody Queixa queixaAFechar) {
-        queixaAFechar.situacao = Queixa.FECHADA;
+        try {
+			queixaAFechar.fechar();
+		} catch (ObjetoInvalidoException e) {
+			return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.BAD_REQUEST);
+		}
         queixaService.updateQueixa(queixaAFechar);
         return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.OK);
     }
@@ -283,7 +289,7 @@ public class RestApiController {
         Iterator<Queixa> it = queixaService.getIterator();
         for (Iterator<Queixa> it1 = it; it1.hasNext(); ) {
             Queixa q = it1.next();
-            if (q.getSituacao() == Queixa.ABERTA)
+            if (q.getSituacao() == new Aberta())
                 contador++;
         }
 

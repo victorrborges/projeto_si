@@ -1,7 +1,7 @@
-package com.ufcg.si1.model;
+package com.ufcg.si1.model.queixa;
 
 import exceptions.ObjetoInvalidoException;
-import org.springframework.http.ResponseEntity;
+import com.ufcg.si1.model.Pessoa;
 
 public class Queixa {
 
@@ -11,11 +11,9 @@ public class Queixa {
 
 	private Pessoa solicitante;
 
-	public int situacao; // usa variaveis estaticas abaixo
-	/* situacoes da queixa */
-	public static final int ABERTA = 1;
-	public static final int EM_ANDAMENTO = 2;
-	public static final int FECHADA = 3;
+	public QueixaState queixaState;
+	
+	public QueixaFactory queixaFactory;
 
 	private String comentario = ""; // usado na atualizacao da queixa
 
@@ -28,7 +26,7 @@ public class Queixa {
 				  String rua, String uf, String cidade) {
 		this.id = id;
 		this.descricao = descricao;
-		this.situacao = situacao;
+		this.queixaState = queixaFactory.criarQueixa(situacao);
 		this.comentario = comentario;
 		this.solicitante = new Pessoa(nome, email, rua, uf, cidade);
 	}
@@ -49,24 +47,21 @@ public class Queixa {
 		this.descricao = descricao;
 	}
 
-	public int getSituacao() {
-		return situacao;
+	public QueixaState getSituacao() {
+		return this.queixaState;
 	}
 
 	public void abrir() throws ObjetoInvalidoException {
-		if (this.situacao != Queixa.EM_ANDAMENTO)
-			this.situacao = Queixa.ABERTA;
-		else
-			throw new ObjetoInvalidoException("Status inválido");
+		this.queixaState = this.queixaState.abrir();
 	}
 
+	public void fechar() throws ObjetoInvalidoException {
+		this.queixaState = this.queixaState.fechar();
+	}
+	
 	public void fechar(String coment) throws ObjetoInvalidoException {
-		if (this.situacao == Queixa.EM_ANDAMENTO
-				|| this.situacao == Queixa.ABERTA) {
-			this.situacao = Queixa.FECHADA;
-			this.comentario = coment;
-		} else
-			throw new ObjetoInvalidoException("Status Inválido");
+		this.queixaState = this.queixaState.fechar();
+		this.comentario = coment;
 	}
 
 	public String getComentario() {
