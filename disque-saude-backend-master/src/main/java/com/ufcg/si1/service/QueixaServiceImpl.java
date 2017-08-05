@@ -19,31 +19,33 @@ public class QueixaServiceImpl implements QueixaService {
     private static List<Queixa> queixasFechadas;
 
     static {
-        queixasAbertas = populateDummyQueixas();
+        queixasFechadas = populateDummyQueixas();
+        queixasAbertas = new ArrayList<Queixa>();
     }
 
     private static List<Queixa> populateDummyQueixas() {
         List<Queixa> queixas = new ArrayList<Queixa>();
 
         queixas.add(new Queixa(counter.incrementAndGet(), "Passei mal com uma coxinha",
-                3, "", "Jose Silva",
+                 "", "Jose Silva",
                 "jose@gmail.com", "rua dos tolos", "PE", "Recife"));
 
 
         queixas.add(new Queixa(counter.incrementAndGet(),
-                "Bacalhau estragado, passamos mal!", 3, "",
+                "Bacalhau estragado, passamos mal!", "",
                 "Ailton Sousa", "ailton@gmail.com", "rua dos bobos", "PB",
                 "Joao Pessoa"));
 
-        queixas.add(new Queixa(counter.incrementAndGet(), "Nossa rua estah muito suja", 3, "",
+        queixas.add(new Queixa(counter.incrementAndGet(), "Nossa rua estah muito suja",  "",
                 "Jose Silva", "jose@gmail.com", "rua dos tolos", "PE", "Recife"));
 
 
-        queixas.add(new Queixa(counter.incrementAndGet(), "iluminacao horrivel, muitos assaltos", 3, "",
+        queixas.add(new Queixa(counter.incrementAndGet(), "iluminacao horrivel, muitos assaltos", "",
                 "Ailton Sousa", "ailton@gmail.com", "rua dos bobos", "PB",
                 "Joao Pessoa"));
-
+        
         return queixas;
+
     }
 
     public List<Queixa> findAllQueixas() {
@@ -52,7 +54,7 @@ public class QueixaServiceImpl implements QueixaService {
 
     public void registraQueixa(Queixa queixa) {
         queixa.setId(counter.incrementAndGet());
-        queixasAbertas.add(queixa);
+        queixasAbertas.add(queixa);       
     }
 
     public void updateQueixa(Queixa queixa) {
@@ -87,10 +89,8 @@ public class QueixaServiceImpl implements QueixaService {
     	return this.queixasAbertas.size();
     }
 
-	@Override
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int numeroDeQueixasTotais() {
+		return this.queixasAbertas.size() + this.queixasFechadas.size();
 	}
 
 	

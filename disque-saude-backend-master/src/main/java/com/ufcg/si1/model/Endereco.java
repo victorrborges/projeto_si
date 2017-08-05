@@ -21,12 +21,24 @@ public class Endereco {
 	public String getRua() {
 		return this.rua;
 	}
+	
+	public void setRua(String rua){
+		this.rua = rua;
+	}
 
 	public String getUf() {
 		return this.uf;
 	}
+	
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
 
 	public String getCidade() {
 		return this.cidade;
+	}
+	
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
 }

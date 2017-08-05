@@ -2,6 +2,7 @@ package com.ufcg.si1.model.queixa;
 
 import exceptions.ObjetoInvalidoException;
 import com.ufcg.si1.model.Pessoa;
+import com.ufcg.si1.util.FactoryPessoa;
 
 public class Queixa {
 
@@ -14,10 +15,20 @@ public class Queixa {
 	private String comentario = ""; // usado na atualizacao da queixa
 
 	public Queixa(){
-		id=0;
-	}
 
-	public Queixa(long id, String descricao, int situacao, String comentario,
+	}
+	
+	public Queixa(long id, String descricao,
+            String nome, String email,
+			  String rua, String uf, String cidade) {
+	this.id = id;
+	this.descricao = descricao;
+	this.comentario = "";
+	this.solicitante = FactoryPessoa.criaPessoa(nome, email, rua, uf, cidade);
+}
+
+
+	public Queixa(long id, String descricao, String comentario,
                   String nome, String email,
 				  String rua, String uf, String cidade) {
 		this.id = id;

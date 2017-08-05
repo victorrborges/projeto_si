@@ -74,7 +74,9 @@ public class RestApiController {
 		}*/
 
     	//TODO: VERIFICAR SE A QUEIXA JA EXISTE
+    	//TODO: Nao esta salvando endereco
         queixaService.registraQueixa(queixa);
+        
 
         return new ResponseEntity<Queixa>(queixa, HttpStatus.CREATED);
     }
@@ -254,19 +256,19 @@ public class RestApiController {
         // se normal, mais de 20% abertas eh ruim, mais de 10 eh regular
         // se extra, mais de 10% abertas eh ruim, mais de 5% eh regular
         if (situacaoAtualPrefeitura == 0) {
-            if ((double) numeroQueixasAbertas() / queixaService.size() > 0.2) {
+            if ((double) numeroQueixasAbertas() / queixaService.numeroDeQueixasTotais() > 0.2) {
                 return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(0), HttpStatus.OK);
             } else {
-                if ((double) numeroQueixasAbertas() / queixaService.size() > 0.1) {
+                if ((double) numeroQueixasAbertas() / queixaService.numeroDeQueixasTotais() > 0.1) {
                     return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(1), HttpStatus.OK);
                 }
             }
         }
         if (this.situacaoAtualPrefeitura == 1) {
-            if ((double) numeroQueixasAbertas() / queixaService.size() > 0.1) {
+            if ((double) numeroQueixasAbertas() / queixaService.numeroDeQueixasTotais() > 0.1) {
                 return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(0), HttpStatus.OK);
             } else {
-                if ((double) numeroQueixasAbertas() / queixaService.size() > 0.05) {
+                if ((double) numeroQueixasAbertas() / queixaService.numeroDeQueixasTotais() > 0.05) {
                     return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(1), HttpStatus.OK);
                 }
             }

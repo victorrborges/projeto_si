@@ -7,6 +7,10 @@ public class Pessoa {
 	private String email;
 
 	private Endereco endereco;
+	
+	public Pessoa(){
+		
+	}
 
 	public Pessoa(String nome, String email, String rua, String uf,
 			String cidade) {

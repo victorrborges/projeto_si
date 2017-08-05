@@ -18,8 +18,8 @@ public interface QueixaService {
 
 	public void deleteQueixaById(long id);
 
-    public int size();
-
     public int numeroDeQueixasAbertas();
+    
+    public int numeroDeQueixasTotais();
 	
 }
