@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.ufcg.si1.model.*;
+import com.ufcg.si1.model.queixa.Fechada;
 import com.ufcg.si1.model.queixa.Queixa;
 import com.ufcg.si1.util.ObjWrapper;
 import org.springframework.web.client.RestTemplate;
@@ -158,7 +159,7 @@ public class SpringBootRestTestClient {
 
         restTemplate.postForLocation(REST_SERVICE_URI+"/queixa/fechamento", queixa, Queixa.class);
         queixa = restTemplate.getForObject(REST_SERVICE_URI+"/queixa/"+i, Queixa.class);
-        System.out.println(queixa.situacao);
+        System.out.println(queixa.getState() == new Fechada());
 
     }
 

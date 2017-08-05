@@ -289,7 +289,7 @@ public class RestApiController {
         Iterator<Queixa> it = queixaService.getIterator();
         for (Iterator<Queixa> it1 = it; it1.hasNext(); ) {
             Queixa q = it1.next();
-            if (q.getSituacao() == new Aberta())
+            if (q.getState() == new Aberta())
                 contador++;
         }
 

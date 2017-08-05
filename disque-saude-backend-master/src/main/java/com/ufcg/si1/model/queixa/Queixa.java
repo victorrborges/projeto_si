@@ -47,7 +47,7 @@ public class Queixa {
 		this.descricao = descricao;
 	}
 
-	public QueixaState getSituacao() {
+	public QueixaState getState() {
 		return this.queixaState;
 	}
 
