@@ -74,10 +74,8 @@ public class RestApiController {
 		}*/
 
     	//TODO: VERIFICAR SE A QUEIXA JA EXISTE
-    	//TODO: Nao esta salvando endereco
         queixaService.registraQueixa(queixa);
-        
-
+      
         return new ResponseEntity<Queixa>(queixa, HttpStatus.CREATED);
     }
 

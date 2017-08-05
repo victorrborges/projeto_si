@@ -9,6 +9,7 @@ public class Pessoa {
 	private Endereco endereco;
 	
 	public Pessoa(){
+		endereco = new Endereco();
 		
 	}
 
@@ -33,6 +34,18 @@ public class Pessoa {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public void setRua(String rua) {
+		endereco.setRua(rua);
+	}
+	
+	public void setCidade(String cidade) {
+		endereco.setCidade(cidade);
+	}
+	
+	public void setUf(String uf) {
+		endereco.setUf(uf);
 	}
 
 
