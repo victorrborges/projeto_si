@@ -8,24 +8,18 @@ import com.ufcg.si1.model.queixa.Queixa;
 
 public interface QueixaService {
 
-	List<Queixa> findAllQueixas();
+	public List<Queixa> findAllQueixas();
+	
+	public void registraQueixa(Queixa queixa);
 
+    public Queixa findById(long id);
 
-    void saveQueixa(Queixa queixa);
+	public void updateQueixa(Queixa user);
 
+	public void deleteQueixaById(long id);
 
-	Queixa findById(long id);
+    public int size();
 
-	void updateQueixa(Queixa user);
-
-
-	void deleteQueixaById(long id);
-
-    int size();
-
-	Iterator<Queixa> getIterator();
-
-
-//	boolean isUserExist(Queixa user);
+    public int numeroDeQueixasAbertas();
 	
 }

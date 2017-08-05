@@ -1,34 +1,47 @@
 package com.ufcg.si1.controller;
 
-import br.edu.ufcg.Hospital;
-import com.ufcg.si1.model.*;
-import com.ufcg.si1.model.queixa.Aberta;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.ufcg.si1.model.Especialidade;
+import com.ufcg.si1.model.PostoSaude;
+import com.ufcg.si1.model.UnidadeSaude;
 import com.ufcg.si1.model.queixa.Queixa;
-import com.ufcg.si1.service.*;
+import com.ufcg.si1.service.EspecialidadeService;
+import com.ufcg.si1.service.EspecialidadeServiceImpl;
+import com.ufcg.si1.service.QueixaService;
+import com.ufcg.si1.service.QueixaServiceImpl;
+import com.ufcg.si1.service.UnidadeSaudeService;
+import com.ufcg.si1.service.UnidadeSaudeServiceImpl;
 import com.ufcg.si1.util.CustomErrorType;
 import com.ufcg.si1.util.ObjWrapper;
+
+import br.edu.ufcg.Hospital;
 import exceptions.ObjetoInexistenteException;
 import exceptions.ObjetoInvalidoException;
 import exceptions.ObjetoJaExistenteException;
 import exceptions.Rep;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
 public class RestApiController {
 
-    QueixaService queixaService = new QueixaServiceImpl();
-    EspecialidadeService especialidadeService = new EspecialidadeServiceImpl();
-    UnidadeSaudeService unidadeSaudeService = new UnidadeSaudeServiceImpl();
+    private QueixaService queixaService = new QueixaServiceImpl();
+    private EspecialidadeService especialidadeService = new EspecialidadeServiceImpl();
+    private UnidadeSaudeService unidadeSaudeService = new UnidadeSaudeServiceImpl();
 
     /* situação normal =0
        situação extra =1
@@ -60,15 +73,8 @@ public class RestApiController {
 					queixa.pegaDescricao()),HttpStatus.CONFLICT);
 		}*/
 
-        try {
-            queixa.abrir();
-        } catch (ObjetoInvalidoException e) {
-            return new ResponseEntity<List>(HttpStatus.BAD_REQUEST);
-        }
-        queixaService.saveQueixa(queixa);
-
-       // HttpHeaders headers = new HttpHeaders();
-        //headers.setLocation(ucBuilder.path("/api/queixa/{id}").buildAndExpand(queixa.getId()).toUri());
+    	//TODO: VERIFICAR SE A QUEIXA JA EXISTE
+        queixaService.registraQueixa(queixa);
 
         return new ResponseEntity<Queixa>(queixa, HttpStatus.CREATED);
     }
@@ -119,7 +125,7 @@ public class RestApiController {
     @RequestMapping(value = "/queixa/fechamento", method = RequestMethod.POST)
     public ResponseEntity<?> fecharQueixa(@RequestBody Queixa queixaAFechar) {
         try {
-			queixaAFechar.fechar();
+			queixaAFechar.fechar("fechar");
 		} catch (ObjetoInvalidoException e) {
 			return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.BAD_REQUEST);
 		}
@@ -285,15 +291,7 @@ public class RestApiController {
     }
 
     private double numeroQueixasAbertas() {
-        int contador = 0;
-        Iterator<Queixa> it = queixaService.getIterator();
-        for (Iterator<Queixa> it1 = it; it1.hasNext(); ) {
-            Queixa q = it1.next();
-            if (q.getState() == new Aberta())
-                contador++;
-        }
-
-        return contador;
+        return this.queixaService.numeroDeQueixasAbertas();
     }
 
 }

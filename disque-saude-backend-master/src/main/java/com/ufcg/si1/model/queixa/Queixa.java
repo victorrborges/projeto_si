@@ -11,10 +11,6 @@ public class Queixa {
 
 	private Pessoa solicitante;
 
-	public QueixaState queixaState;
-	
-	public QueixaFactory queixaFactory;
-
 	private String comentario = ""; // usado na atualizacao da queixa
 
 	public Queixa(){
@@ -26,7 +22,6 @@ public class Queixa {
 				  String rua, String uf, String cidade) {
 		this.id = id;
 		this.descricao = descricao;
-		this.queixaState = queixaFactory.criarQueixa(situacao);
 		this.comentario = comentario;
 		this.solicitante = new Pessoa(nome, email, rua, uf, cidade);
 	}
@@ -47,20 +42,8 @@ public class Queixa {
 		this.descricao = descricao;
 	}
 
-	public QueixaState getState() {
-		return this.queixaState;
-	}
-
-	public void abrir() throws ObjetoInvalidoException {
-		this.queixaState = this.queixaState.abrir();
-	}
-
-	public void fechar() throws ObjetoInvalidoException {
-		this.queixaState = this.queixaState.fechar();
-	}
 	
 	public void fechar(String coment) throws ObjetoInvalidoException {
-		this.queixaState = this.queixaState.fechar();
 		this.comentario = coment;
 	}
 

@@ -15,10 +15,11 @@ public class QueixaServiceImpl implements QueixaService {
 
     private static final AtomicLong counter = new AtomicLong();
 
-    private static List<Queixa> queixas;
+    private static List<Queixa> queixasAbertas;
+    private static List<Queixa> queixasFechadas;
 
     static {
-        queixas = populateDummyQueixas();
+        queixasAbertas = populateDummyQueixas();
     }
 
     private static List<Queixa> populateDummyQueixas() {
@@ -46,22 +47,22 @@ public class QueixaServiceImpl implements QueixaService {
     }
 
     public List<Queixa> findAllQueixas() {
-        return queixas;
+        return queixasAbertas;
     }
 
-    public void saveQueixa(Queixa queixa) {
+    public void registraQueixa(Queixa queixa) {
         queixa.setId(counter.incrementAndGet());
-        queixas.add(queixa);
+        queixasAbertas.add(queixa);
     }
 
     public void updateQueixa(Queixa queixa) {
-        int index = queixas.indexOf(queixa);
-        queixas.set(index, queixa);
+        int index = queixasAbertas.indexOf(queixa);
+        queixasAbertas.set(index, queixa);
     }
 
     public void deleteQueixaById(long id) {
 
-        for (Iterator<Queixa> iterator = queixas.iterator(); iterator.hasNext(); ) {
+        for (Iterator<Queixa> iterator = queixasAbertas.iterator(); iterator.hasNext(); ) {
             Queixa q = iterator.next();
             if (q.getId() == id) {
                 iterator.remove();
@@ -69,29 +70,30 @@ public class QueixaServiceImpl implements QueixaService {
         }
     }
 
-    @Override
-    //este metodo nunca eh chamado, mas se precisar estah aqui
-    public int size() {
-        return queixas.size();
-    }
-
-    @Override
-    public Iterator<Queixa> getIterator() {
-        return queixas.iterator();
-    }
-
     public void deleteAllUsers() {
-        queixas.clear();
+        queixasAbertas.clear();
     }
 
     public Queixa findById(long id) {
-        for (Queixa queixa : queixas) {
+        for (Queixa queixa : queixasAbertas) {
             if (queixa.getId() == id) {
                 return queixa;
             }
         }
         return null;
     }
+    
+    public int numeroDeQueixasAbertas() {
+    	return this.queixasAbertas.size();
+    }
+
+	@Override
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
 
 
 
