@@ -1,7 +1,7 @@
-package com.ufcg.si1.model.queixa;
+package com.ufcg.si1.model;
 
 import exceptions.ObjetoInvalidoException;
-import com.ufcg.si1.model.Pessoa;
+
 import com.ufcg.si1.util.FactoryPessoa;
 
 public class Queixa {

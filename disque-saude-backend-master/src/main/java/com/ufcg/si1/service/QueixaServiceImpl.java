@@ -2,7 +2,7 @@ package com.ufcg.si1.service;
 
 import org.springframework.stereotype.Service;
 
-import com.ufcg.si1.model.queixa.Queixa;
+import com.ufcg.si1.model.Queixa;
 
 import java.util.ArrayList;
 import java.util.Iterator;
