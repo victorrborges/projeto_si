@@ -5,6 +5,7 @@ import exceptions.ObjetoInexistenteException;
 import exceptions.ObjetoJaExistenteException;
 import exceptions.Rep;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -12,17 +13,17 @@ public interface EspecialidadeService {
     Especialidade procura(int codigo) throws Rep,
             ObjetoInexistenteException;
 
-    List getListaEspecialidade()
+    public Collection<Especialidade> getListaEspecialidade()
                     throws Rep, ObjetoInexistenteException;
 
-    int size();
+    public int size();
 
-    Especialidade getElemento(int posicao);
+    public Especialidade getElemento(int posicao);
 
-    void insere(Especialidade esp)throws Rep,
+    public void insere(Especialidade esp)throws Rep,
             ObjetoJaExistenteException;
 
-    boolean existe(int codigo);
+    public boolean existe(int codigo);
 
-    Especialidade findById(long id);
+    public Especialidade findById(long id);
 }

@@ -6,55 +6,53 @@ import exceptions.ObjetoJaExistenteException;
 import exceptions.Rep;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service("especialidadeService")
 public class EspecialidadeServiceImpl implements EspecialidadeService {
 
-    private Especialidade[] vetor;
-
-    private int indice;
-
-    private int geraCodigo = 0; // para gerar codigos
+	private Map<Integer, Especialidade> especialidades;
+		
+    private int geraCodigo;
 
     public EspecialidadeServiceImpl() {
-        vetor = new Especialidade[100];
-        indice = 0;
+    	this.especialidades = new HashMap<Integer, Especialidade>();
+    	this.geraCodigo = 0;
     }
 
     @Override
     public Especialidade procura(int codigo) throws Rep,
             ObjetoInexistenteException {
 
-        int i = 0;
-
-        while (i < indice) {
-            if (vetor[i].getCodigo() == codigo) {
-                return vetor[i];
-            }
-
-            i++;
-        }
-
-        throw new ObjetoInexistenteException("Erro Especialidade");
+    	Especialidade especialidadeProcurada = this.especialidades.get(codigo);
+    	
+    	
+    	if (especialidadeProcurada != null)
+			return especialidadeProcurada;
+		else
+			throw new ObjetoInexistenteException("Erro Especialidade");
+    	
     }
 
     @Override
-    public List getListaEspecialidade()
+    public Collection<Especialidade> getListaEspecialidade()
             throws Rep, ObjetoInexistenteException {
-        return Arrays.asList(vetor);
+    	
+    	return this.especialidades.values();
+    
     }
 
     @Override
     public int size() {
-        return this.indice;
+        return this.especialidades.size();
     }
 
     @Override
     public Especialidade getElemento(int posicao) {
-        if (posicao < indice)
-            return this.vetor[posicao];
+        if (this.especialidades.containsKey(posicao))
+        	return this.especialidades.get(posicao);
         else
             return null;
     }
@@ -64,43 +62,33 @@ public class EspecialidadeServiceImpl implements EspecialidadeService {
             ObjetoJaExistenteException {
 
         esp.setCodigo(++geraCodigo);
-
-        if (indice == this.vetor.length) {
-            throw new Rep("Erro ao incluir no array");
-        }
+        
+        int chaveDaNovaEsp = this.especialidades.size();
 
         if (this.existe(esp.getCodigo())) {
             throw new ObjetoJaExistenteException("Objeto jah existe no array");
         }
 
-        this.vetor[indice] = esp;
-        indice++;
+        this.especialidades.put(chaveDaNovaEsp, esp);
     }
 
     @Override
     public boolean existe(int codigo) {
+    	
+        return (this.findById(codigo) != null) ? true:false;
 
-        int indiceAux = 0;
-        boolean existe = false;
-
-        for (int i = 0; i < indice; i++) {
-            if (this.vetor[i].getCodigo() == codigo) {
-                indiceAux = i;
-                existe = true;
-
-                break;
-            }
-        }
-
-        return existe;
     }
 
     public Especialidade findById(long id) {
-        for (Especialidade esp: vetor) {
-            if (esp.getCodigo() == id) {
-                return esp;
-            }
-        }
+        
+    	Collection<Especialidade> colecaoDeEspecialidades = this.especialidades.values();
+    	
+    	for (Especialidade especialidade : colecaoDeEspecialidades) {
+			if (especialidade.getCodigo() == id) {
+				return especialidade;
+			}
+		}   	
+
         return null;
     }
 
