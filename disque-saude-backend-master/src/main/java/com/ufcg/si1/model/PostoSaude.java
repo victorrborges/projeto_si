@@ -15,14 +15,9 @@ public class PostoSaude extends UnidadeSaude{
     public PostoSaude(){
         super();
     }
-
-    // implementacoes vazias
+    
     public int getAtendentes() {
         return atendentes;
-    }
-
-    public float taxaDiaria() {
-        return taxaDiariaAtendimentos;
     }
 
     public void setAtendentes(int atendentes) {

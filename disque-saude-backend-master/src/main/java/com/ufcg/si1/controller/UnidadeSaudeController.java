@@ -121,10 +121,7 @@ public class UnidadeSaudeController {
 
 		double c = 0.0;
 		if (unidade instanceof PostoSaude)
-			c = ((PostoSaude) unidade).getAtendentes() / ((PostoSaude) unidade).taxaDiaria();
-		else if (unidade instanceof Hospital) {
-			c = ((Hospital) unidade).getNumeroMedicos() / ((Hospital) unidade).getNumeroPacientesDia();
-		}
+			c = ((PostoSaude) unidade).getAtendentes() / ((PostoSaude) unidade).getTaxaDiariaAtendimentos();
 		return new ResponseEntity<ObjWrapper<Double>>(new ObjWrapper<Double>(new Double(c)), HttpStatus.OK);
 	}
 
