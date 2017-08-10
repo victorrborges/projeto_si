@@ -1,42 +1,49 @@
 package com.ufcg.si1.model;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import exceptions.ObjetoInvalidoException;
 
-import com.ufcg.si1.util.FactoryPessoa;
-
+@Entity
 public class Queixa {
-
+	
+	@Id
+	@GeneratedValue
 	private long id;
 
 	private String descricao;
 
-	private Pessoa solicitante;
+	private long solicitanteId;
 
 	private String comentario = ""; // usado na atualizacao da queixa
+	
+	@Enumerated(EnumType.STRING)
+	private SituacaoQueixa situacao;
 
 	public Queixa(){
 
 	}
 	
-	public Queixa(long id, String descricao,
-            String nome, String email,
-			  String rua, String uf, String cidade) {
-	this.id = id;
+	public Queixa(String descricao, SituacaoQueixa situacao,
+            long solicitanteId) {
 	this.descricao = descricao;
+	this.situacao = situacao;
 	this.comentario = "";
-	this.solicitante = FactoryPessoa.criaPessoa(nome, email, rua, uf, cidade);
+	this.solicitanteId = solicitanteId;
 }
 
 
-	public Queixa(long id, String descricao, String comentario,
-                  String nome, String email,
-				  String rua, String uf, String cidade) {
-		this.id = id;
+	public Queixa(String descricao, String comentario,
+                  long solicitanteId) {
 		this.descricao = descricao;
 		this.comentario = comentario;
-		this.solicitante = new Pessoa(nome, email, rua, uf, cidade);
+		this.solicitanteId = solicitanteId;
 	}
-
+	
 	public long getId() {
 		return id;
 	}
@@ -53,9 +60,12 @@ public class Queixa {
 		this.descricao = descricao;
 	}
 
-	
-	public void fechar(String coment) throws ObjetoInvalidoException {
-		this.comentario = coment;
+	public long getSolicitanteId() {
+		return solicitanteId;
+	}
+
+	public void setSolicitanteId(long solicitanteId) {
+		this.solicitanteId = solicitanteId;
 	}
 
 	public String getComentario() {
@@ -65,13 +75,29 @@ public class Queixa {
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
-
-	public Pessoa getSolicitante() {
-		return solicitante;
+	
+	public SituacaoQueixa getSituacao() {
+		return situacao;
 	}
 
-	public void setSolicitante(Pessoa solicitante) {
-		this.solicitante = solicitante;
+	public void setSituacao(SituacaoQueixa situacao) {
+		this.situacao = situacao;
+	}
+	
+	public void abrir() throws ObjetoInvalidoException {
+		if (this.situacao != SituacaoQueixa.EM_ANDAMENTO)
+			this.situacao = SituacaoQueixa.ABERTA;
+		else
+			throw new ObjetoInvalidoException("Status inválido");
+	}
+
+	public void fechar(String coment) throws ObjetoInvalidoException {
+		if (this.situacao == SituacaoQueixa.EM_ANDAMENTO
+				|| this.situacao == SituacaoQueixa.ABERTA) {
+			this.situacao = SituacaoQueixa.FECHADA;
+			this.comentario = coment;
+		} else
+			throw new ObjetoInvalidoException("Status Inválido");
 	}
 
 	@Override

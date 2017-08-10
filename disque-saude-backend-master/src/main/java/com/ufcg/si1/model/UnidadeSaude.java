@@ -3,58 +3,45 @@ package com.ufcg.si1.model;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PostoSaude.class, name = "posto")
 })
+
+@Entity
 public class UnidadeSaude {
-    private int codigo;
+	
+	@Id
+	@GeneratedValue
+    private long id;
 
     private String descricao;
 
-    private List<Especialidade> especialidades = new ArrayList<Especialidade>();
-
-    private long [] numeroQueixas = new long[1000];
-    int contador = 0;
-
     public UnidadeSaude(String descricao) {
-        this.codigo = 0; // gerado no repositorio
         this.descricao = descricao;
     }
-    public UnidadeSaude(){
+    
+    public UnidadeSaude() {
+    	
     }
 
-    public void addQueixaProxima(long id) {
-        if (this instanceof PostoSaude){
-            numeroQueixas[contador++] = id;
-        }
-    }
+	public long getId() {
+		return id;
+	}
 
-    public String pegaDescricao() {
-        return this.descricao;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public void mudaDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public List<Especialidade> getEspecialidades() {
-        return this.especialidades;
-    }
-
-    public void adicionarEspecialidade(Especialidade esp) {
-        this.especialidades.add(esp);
-    }
-
-    public int pegaCodigo() {
-        return this.codigo;
-    }
-
-    public void mudaCodigo(int cod) {
-        this.codigo = cod;
-    }
-
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 }

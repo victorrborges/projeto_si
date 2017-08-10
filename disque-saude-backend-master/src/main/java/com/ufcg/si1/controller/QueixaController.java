@@ -2,6 +2,7 @@ package com.ufcg.si1.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,24 +10,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.si1.model.Queixa;
-import com.ufcg.si1.model.UnidadeSaude;
 import com.ufcg.si1.service.QueixaService;
 import com.ufcg.si1.service.QueixaServiceImpl;
 import com.ufcg.si1.util.CustomErrorType;
 import com.ufcg.si1.util.ObjWrapper;
 
+import exceptions.ObjetoInexistenteException;
 import exceptions.ObjetoInvalidoException;
+import exceptions.ObjetoJaExistenteException;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
 public class QueixaController {
 
+	@Autowired
 	private QueixaService queixaService = new QueixaServiceImpl();
 
 	/*
@@ -37,13 +39,14 @@ public class QueixaController {
 	// -------------------Retrieve All
 	// Complaints---------------------------------------------
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/", method = RequestMethod.GET)
-	public ResponseEntity<List<Queixa>> listAllUsers() {
+	public ResponseEntity<List<Queixa>> listAllQueixas() {
+		
 		List<Queixa> queixas = queixaService.findAllQueixas();
 
 		if (queixas.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-			// You many decide to return HttpStatus.NOT_FOUND
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<List<Queixa>>(queixas, HttpStatus.OK);
 	}
@@ -51,61 +54,67 @@ public class QueixaController {
 	// -------------------Abrir uma
 	// Queixa-------------------------------------------
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/", method = RequestMethod.POST)
 	public ResponseEntity<?> abrirQueixa(@RequestBody Queixa queixa, UriComponentsBuilder ucBuilder) {
-
-		// este codigo estava aqui, mas nao precisa mais
-		/*
-		 * if (queixaService.doesQueixaExist(queixa)) { return new
-		 * ResponseEntity(new CustomErrorType("Esta queixa já existe+
-		 * queixa.pegaDescricao()),HttpStatus.CONFLICT); }
-		 */
-
-		// TODO: VERIFICAR SE A QUEIXA JA EXISTE
-		queixaService.registraQueixa(queixa);
+		
+		try {
+			queixaService.save(queixa);
+		} catch (ObjetoJaExistenteException e) {
+			return new ResponseEntity(new CustomErrorType("Esta queixa já existe" + 
+											queixa.getDescricao()),HttpStatus.CONFLICT);
+		}
 
 		return new ResponseEntity<Queixa>(queixa, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/queixa/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> consultarQueixa(@PathVariable("id") long id) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/queixa/{queixaId}", method = RequestMethod.GET)
+	public ResponseEntity<?> consultarQueixa(@PathVariable("queixaId") long queixaId) {
 
-		Queixa q = queixaService.findById(id);
-		if (q == null) {
-			return new ResponseEntity(new CustomErrorType("Queixa with id " + id + " not found"), HttpStatus.NOT_FOUND);
+		try {
+			Queixa queixa = queixaService.findOneQueixa(queixaId);
+			return new ResponseEntity<Queixa>(queixa, HttpStatus.OK);
+		} catch (ObjetoInexistenteException e) {
+			return new ResponseEntity(new CustomErrorType("Queixa with id " + queixaId + " not found"), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Queixa>(q, HttpStatus.OK);
+		
 	}
 
-	@RequestMapping(value = "/queixa/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateQueixa(@PathVariable("id") long id, @RequestBody Queixa queixa) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/queixa/{queixaId}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateQueixa(@PathVariable("queixaId") long queixaId, @RequestBody Queixa queixa) {
 
-		Queixa currentQueixa = queixaService.findById(id);
+		try {
+			Queixa currentQueixa = queixaService.findOneQueixa(queixaId);
+			
+			currentQueixa.setDescricao(queixa.getDescricao());
+			currentQueixa.setComentario(queixa.getComentario());
 
-		if (currentQueixa == null) {
-			return new ResponseEntity(new CustomErrorType("Unable to upate. Queixa with id " + id + " not found."),
+			queixaService.updateQueixa(currentQueixa);
+			return new ResponseEntity<Queixa>(currentQueixa, HttpStatus.OK);
+			
+		} catch (ObjetoInexistenteException e) {
+			return new ResponseEntity(new CustomErrorType("Unable to upate. Queixa with id " + queixaId + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
-
-		currentQueixa.setDescricao(queixa.getDescricao());
-		currentQueixa.setComentario(queixa.getComentario());
-
-		queixaService.updateQueixa(currentQueixa);
-		return new ResponseEntity<Queixa>(currentQueixa, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/queixa/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
-
-		Queixa user = queixaService.findById(id);
-		if (user == null) {
-			return new ResponseEntity(new CustomErrorType("Unable to delete. Queixa with id " + id + " not found."),
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/queixa/{queixaId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteUser(@PathVariable("queixaId") long queixaId) {
+		
+		try {
+			queixaService.deleteQueixa(queixaId);
+			return new ResponseEntity<Queixa>(HttpStatus.NO_CONTENT);
+		} catch (ObjetoInexistenteException e) {
+			return new ResponseEntity(new CustomErrorType("Unable to delete. Queixa with id " + queixaId + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
-		queixaService.deleteQueixaById(id);
-		return new ResponseEntity<Queixa>(HttpStatus.NO_CONTENT);
+		
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/fechamento", method = RequestMethod.POST)
 	public ResponseEntity<?> fecharQueixa(@RequestBody Queixa queixaAFechar) {
 		try {
@@ -113,8 +122,14 @@ public class QueixaController {
 		} catch (ObjetoInvalidoException e) {
 			return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.BAD_REQUEST);
 		}
-		queixaService.updateQueixa(queixaAFechar);
-		return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.OK);
+		
+		try {
+			this.queixaService.updateQueixa(queixaAFechar);
+			return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.OK);
+		} catch (ObjetoInexistenteException e) {
+			return new ResponseEntity(new CustomErrorType("Unable to close. Queixa with id " + queixaAFechar.getId() + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@RequestMapping(value = "/geral/situacao", method = RequestMethod.GET)
@@ -124,19 +139,19 @@ public class QueixaController {
 		// se normal, mais de 20% abertas eh ruim, mais de 10 eh regular
 		// se extra, mais de 10% abertas eh ruim, mais de 5% eh regular
 		if (situacaoAtualPrefeitura == 0) {
-			if ((double) numeroQueixasAbertas() / queixaService.numeroDeQueixasTotais() > 0.2) {
+			if (queixaService.razaoQueixas() > 0.2) {
 				return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(0), HttpStatus.OK);
 			} else {
-				if ((double) numeroQueixasAbertas() / queixaService.numeroDeQueixasTotais() > 0.1) {
+				if (queixaService.razaoQueixas() > 0.1) {
 					return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(1), HttpStatus.OK);
 				}
 			}
 		}
 		if (this.situacaoAtualPrefeitura == 1) {
-			if ((double) numeroQueixasAbertas() / queixaService.numeroDeQueixasTotais() > 0.1) {
+			if (queixaService.razaoQueixas() > 0.1) {
 				return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(0), HttpStatus.OK);
 			} else {
-				if ((double) numeroQueixasAbertas() / queixaService.numeroDeQueixasTotais() > 0.05) {
+				if (queixaService.razaoQueixas() > 0.05) {
 					return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(1), HttpStatus.OK);
 				}
 			}
@@ -147,10 +162,6 @@ public class QueixaController {
 		// 1: REGULAR
 		// 2: BOM
 		return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(2), HttpStatus.OK);
-	}
-
-	private double numeroQueixasAbertas() {
-		return this.queixaService.numeroDeQueixasAbertas();
 	}
 
 }

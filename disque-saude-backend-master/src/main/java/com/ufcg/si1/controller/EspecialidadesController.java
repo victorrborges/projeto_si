@@ -1,5 +1,8 @@
 package com.ufcg.si1.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import com.ufcg.si1.service.EspecialidadeService;
 import com.ufcg.si1.service.EspecialidadeServiceImpl;
 import com.ufcg.si1.util.CustomErrorType;
 
+import exceptions.ObjetoInexistenteException;
 import exceptions.ObjetoJaExistenteException;
 import exceptions.Rep;
 
@@ -25,31 +29,44 @@ import exceptions.Rep;
 @CrossOrigin
 public class EspecialidadesController {
 	
+	@Autowired
 	private EspecialidadeService especialidadeService = new EspecialidadeServiceImpl();
 	
     @RequestMapping(value = "/especialidade/", method = RequestMethod.POST)
     public ResponseEntity<String> incluirEspecialidade(@RequestBody Especialidade esp, UriComponentsBuilder ucBuilder) {
+        
         try {
-            especialidadeService.insere(esp);
-        } catch (Rep e) {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        	this.especialidadeService.save(esp);
         } catch (ObjetoJaExistenteException e) {
-            return new ResponseEntity<String>(HttpStatus.CONFLICT);
+        	return new ResponseEntity<String>("Objeto ja existente", HttpStatus.CONFLICT);
         }
-
+       
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/especialidade/{id}").buildAndExpand(esp.getCodigo()).toUri());
+        headers.setLocation(ucBuilder.path("/api/especialidade/{id}").buildAndExpand(esp.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
     
-    @RequestMapping(value = "/especialidade/{id}", method = RequestMethod.GET)
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/especialidade/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> consultarEspecialidade(@PathVariable("id") long id) {
 
-        Especialidade q = especialidadeService.findById(id);
-        if (q == null) {
+        try {
+        	Especialidade q = especialidadeService.findOneEspecialidade(id);
+        	return new ResponseEntity<Especialidade>(q, HttpStatus.OK);
+        } catch (Rep e) {
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        } catch (ObjetoInexistenteException e) {
             return new ResponseEntity(new CustomErrorType("Especialidade with id " + id
                     + " not found"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Especialidade>(q, HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "unidade/{unidadeSaudeId}/especialidades/", method = RequestMethod.GET)
+	public ResponseEntity<?> consultaEspecialidadeporUnidadeSaude(@RequestBody long unidadeSaudeId) {
+		
+		List<Especialidade> especialidades = especialidadeService.getEspecialidadesDaUnidade(unidadeSaudeId);
+		return new ResponseEntity<>(especialidades, HttpStatus.OK);
+		
+	}
+    
 }

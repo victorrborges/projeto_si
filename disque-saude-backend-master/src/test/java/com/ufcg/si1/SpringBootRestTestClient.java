@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.ufcg.si1.model.Pessoa;
 import com.ufcg.si1.model.Queixa;
 import com.ufcg.si1.util.ObjWrapper;
 import org.springframework.web.client.RestTemplate;
@@ -49,11 +50,9 @@ public class SpringBootRestTestClient {
     private static void createQueixa() {
         System.out.println("Testing create Queixa API----------");
         RestTemplate restTemplate = new RestTemplate();
-
-        //criando queixa com -1, para gerar codigo depois
-        Queixa q = new Queixa(-1,"Muitos ratos no meio da rua","",
-                "Jorge de Baixinho", "jorginho@gmail.com", "rua dos bobos", "SP",
+        Pessoa jorge = new Pessoa("Jorge de Baixinho", "jorginho@gmail.com", "rua dos bobos", "SP",
                 "São Paulo");
+        Queixa q = new Queixa("Muitos ratos no meio da rua","", jorge.getId());
         URI uri = restTemplate.postForLocation(REST_SERVICE_URI+"/queixa/", q, Queixa.class);
         System.out.println("Location : "+uri.toASCIIString());
     }
@@ -62,9 +61,9 @@ public class SpringBootRestTestClient {
     private static void updateQueixa() {
         System.out.println("Testing update Queixa API----------");
         RestTemplate restTemplate = new RestTemplate();
-        Queixa q = new Queixa(1,"Nova queixa com ID 1","",
-                "Jorge de Baixinho", "jorginho@gmail.com", "rua dos bobos", "SP",
+        Pessoa jorge = new Pessoa("Jorge de Baixinho", "jorginho@gmail.com", "rua dos bobos", "SP",
                 "São Paulo");
+        Queixa q = new Queixa("Nova queixa com ID 1","", jorge.getId());
         restTemplate.put(REST_SERVICE_URI+"/queixa/1", q);
         System.out.println(q);
     }
