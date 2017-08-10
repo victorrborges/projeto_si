@@ -6,12 +6,21 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PostoSaude.class, name = "posto")
 })
+
+@Entity
 public class UnidadeSaude {
-    private int codigo;
+	
+	@Id
+	@GeneratedValue
+    private long id;
 
     private String descricao;
 
@@ -21,7 +30,6 @@ public class UnidadeSaude {
     int contador = 0;
 
     public UnidadeSaude(String descricao) {
-        this.codigo = 0; // gerado no repositorio
         this.descricao = descricao;
     }
     public UnidadeSaude(){
@@ -48,13 +56,14 @@ public class UnidadeSaude {
     public void adicionarEspecialidade(Especialidade esp) {
         this.especialidades.add(esp);
     }
-
-    public int pegaCodigo() {
-        return this.codigo;
-    }
-
-    public void mudaCodigo(int cod) {
-        this.codigo = cod;
-    }
+    
+	public long getId() {
+		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
+    
 
 }

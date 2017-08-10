@@ -23,7 +23,7 @@ public interface EspecialidadeService {
     public void insere(Especialidade esp)throws Rep,
             ObjetoJaExistenteException;
 
-    public boolean existe(int codigo);
+    public boolean existe(long codigo);
 
     public Especialidade findById(long id);
 }

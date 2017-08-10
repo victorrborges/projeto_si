@@ -1,14 +1,19 @@
 package com.ufcg.si1.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+@Entity
 public class Especialidade {
 
-    private int codigo;
+	@Id
+	@GeneratedValue
+    private long id;
 
     private String descricao;
 
     public Especialidade(String descricao) {
-        this.codigo = 0; // gerado no repositorio
         this.descricao = descricao;
     }
 
@@ -24,11 +29,13 @@ public class Especialidade {
         this.descricao = descricao;
     }
 
-    public int getCodigo() {
-        return this.codigo;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setCodigo(int cod) {
-        this.codigo = cod;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
+
+   
 }

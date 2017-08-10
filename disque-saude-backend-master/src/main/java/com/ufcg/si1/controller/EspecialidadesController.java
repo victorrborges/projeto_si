@@ -38,7 +38,7 @@ public class EspecialidadesController {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/especialidade/{id}").buildAndExpand(esp.getCodigo()).toUri());
+        headers.setLocation(ucBuilder.path("/api/especialidade/{id}").buildAndExpand(esp.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
     

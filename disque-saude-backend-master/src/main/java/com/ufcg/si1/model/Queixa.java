@@ -2,10 +2,17 @@ package com.ufcg.si1.model;
 
 import exceptions.ObjetoInvalidoException;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import com.ufcg.si1.util.FactoryPessoa;
 
+@Entity
 public class Queixa {
-
+	
+	@Id
+	@GeneratedValue
 	private long id;
 
 	private String descricao;
@@ -18,10 +25,9 @@ public class Queixa {
 
 	}
 	
-	public Queixa(long id, String descricao,
+	public Queixa(String descricao,
             String nome, String email,
 			  String rua, String uf, String cidade) {
-	this.id = id;
 	this.descricao = descricao;
 	this.comentario = "";
 	this.solicitante = FactoryPessoa.criaPessoa(nome, email, rua, uf, cidade);

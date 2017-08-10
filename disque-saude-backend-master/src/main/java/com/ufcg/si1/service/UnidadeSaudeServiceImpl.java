@@ -29,7 +29,7 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 		while (i < indice) {
 			if (vetor[i] instanceof UnidadeSaude) {
 				UnidadeSaude unidadeSaude = (UnidadeSaude) vetor[i];
-				if (unidadeSaude.pegaCodigo() == codigo) {
+				if (unidadeSaude.getId() == codigo) {
 					return vetor[i];
 				}
 			}
@@ -50,7 +50,7 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 			throw new Rep("Erro!");
 		} else {
 			if (us instanceof UnidadeSaude) {
-				((UnidadeSaude) us).mudaCodigo(++geraCodigo);
+				((UnidadeSaude) us).setId(++geraCodigo);
 			}
 		}
 
@@ -60,7 +60,7 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 
 		if (us instanceof UnidadeSaude) {
 			UnidadeSaude unidadeSaude = (UnidadeSaude) us;
-			if (this.existe(unidadeSaude.pegaCodigo())) {
+			if (this.existe(unidadeSaude.getId())) {
 				throw new ObjetoJaExistenteException("Objeto jah existe no array");
 			}
 		}
@@ -70,14 +70,14 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 	}
 
 	@Override
-	public boolean existe(int codigo) {
+	public boolean existe(long codigo) {
 
 		boolean existe = false;
 
 		for (int i = 0; i < indice; i++) {
 			if (this.vetor[i] instanceof UnidadeSaude) {
 				UnidadeSaude unidadeSaude = (UnidadeSaude) vetor[i];
-				if (unidadeSaude.pegaCodigo() == codigo) {
+				if (unidadeSaude.getId() == codigo) {
 					existe = true;
 					break;
 				}
@@ -91,7 +91,7 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 		for (Object esp : vetor) {
 			if (esp instanceof UnidadeSaude) {
 				UnidadeSaude unidadeSaude = (UnidadeSaude) esp;
-				if (unidadeSaude != null && unidadeSaude.pegaCodigo() == id) {
+				if (unidadeSaude != null && unidadeSaude.getId() == id) {
 					return unidadeSaude;
 				}
 			}
