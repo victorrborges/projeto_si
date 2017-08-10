@@ -2,6 +2,7 @@ package com.ufcg.si1.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ import exceptions.Rep;
 @CrossOrigin
 public class EspecialidadesController {
 	
+	@Autowired
 	private EspecialidadeService especialidadeService = new EspecialidadeServiceImpl();
 	
     @RequestMapping(value = "/especialidade/", method = RequestMethod.POST)

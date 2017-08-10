@@ -13,11 +13,11 @@ public class HospitalAdapter extends PostoSaude {
     	// TODO
     }
 
-    public String pegaDescricao() {
+    public String getDescricao() {
         return this.hospital.getDescricao();
     }
 
-    public void mudaDescricao(String descricao) {
+    public void setDescricao(String descricao) {
         this.hospital.setDescricao(descricao);
     }
 

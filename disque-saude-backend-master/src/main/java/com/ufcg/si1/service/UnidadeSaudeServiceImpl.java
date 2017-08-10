@@ -1,115 +1,69 @@
 package com.ufcg.si1.service;
 
-import com.ufcg.si1.model.Especialidade;
 import com.ufcg.si1.model.UnidadeSaude;
+import com.ufcg.si1.repository.UnidadeSaudeRepository;
+
 import exceptions.ObjetoInexistenteException;
 import exceptions.ObjetoJaExistenteException;
 import exceptions.Rep;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service("unidadeSaudeService")
 public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
-	private Object[] vetor;
 
-	private int indice;
-
-	private int geraCodigo = 0; // para gerar codigos das queixas cadastradas
-
-	public UnidadeSaudeServiceImpl() {
-		vetor = new Object[100];
-		indice = 0;
-	}
+	@Autowired
+	UnidadeSaudeRepository unidadeSaudeRepository;
 
 	@Override
-	public Object procura(int codigo) throws Rep, ObjetoInexistenteException {
-		int i = 0;
-		while (i < indice) {
-			if (vetor[i] instanceof UnidadeSaude) {
-				UnidadeSaude unidadeSaude = (UnidadeSaude) vetor[i];
-				if (unidadeSaude.getId() == codigo) {
-					return vetor[i];
-				}
-			}
-			i++;
+	public UnidadeSaude findOneUnidade(long unidadeSaudeId) throws ObjetoInexistenteException {
+		if (!this.existe(unidadeSaudeId)) {
+			throw new ObjetoInexistenteException("Unidade de saude inexistente");
 		}
-		throw new ObjetoInexistenteException("Não achou unidade");
+		return this.unidadeSaudeRepository.findOne(unidadeSaudeId);
+	}
+
+	private boolean existe(long unidadeSaudeId) {
+
+		return this.unidadeSaudeRepository.exists(unidadeSaudeId);
+	}
+	
+	@Override
+	public List<UnidadeSaude> findAllUnidades() {
+		return this.unidadeSaudeRepository.findAll();
 	}
 
 	@Override
-	public List<Object> getAll() {
-		return Arrays.asList(vetor);
-	}
+	public void save(UnidadeSaude unidadeSaude) throws Rep, ObjetoJaExistenteException {
 
-	@Override
-	public void insere(Object us) throws Rep, ObjetoJaExistenteException {
-
-		if (us == null) {
+		if (unidadeSaude == null) {
 			throw new Rep("Erro!");
-		} else {
-			if (us instanceof UnidadeSaude) {
-				((UnidadeSaude) us).setId(++geraCodigo);
-			}
+		} 
+		
+		if(this.existe(unidadeSaude.getId())) {
+			throw new ObjetoJaExistenteException("Unidade de saude ja existente");
 		}
 
-		if (indice == this.vetor.length) {
-			throw new Rep("Erro ao incluir no array");
-		}
-
-		if (us instanceof UnidadeSaude) {
-			UnidadeSaude unidadeSaude = (UnidadeSaude) us;
-			if (this.existe(unidadeSaude.getId())) {
-				throw new ObjetoJaExistenteException("Objeto jah existe no array");
-			}
-		}
-
-		this.vetor[indice] = us;
-		indice++;
+		this.unidadeSaudeRepository.save(unidadeSaude);
 	}
+
+
 
 	@Override
-	public boolean existe(long codigo) {
-
-		boolean existe = false;
-
-		for (int i = 0; i < indice; i++) {
-			if (this.vetor[i] instanceof UnidadeSaude) {
-				UnidadeSaude unidadeSaude = (UnidadeSaude) vetor[i];
-				if (unidadeSaude.getId() == codigo) {
-					existe = true;
-					break;
-				}
+	public UnidadeSaude findByBairro(String bairro) throws ObjetoInexistenteException {
+		
+		List<UnidadeSaude> unidades = this.findAllUnidades();
+		
+		for(UnidadeSaude unidadeSaude : unidades) {
+			if(unidadeSaude.getDescricao().equals(bairro)) {
+				return unidadeSaude;
 			}
 		}
-
-		return existe;
-	}
-
-	public Object findById(long id) {
-		for (Object esp : vetor) {
-			if (esp instanceof UnidadeSaude) {
-				UnidadeSaude unidadeSaude = (UnidadeSaude) esp;
-				if (unidadeSaude != null && unidadeSaude.getId() == id) {
-					return unidadeSaude;
-				}
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public Object findByBairro(String bairro) {
-		for (Object esp : vetor) {
-			if (esp instanceof UnidadeSaude) {
-				UnidadeSaude u = (UnidadeSaude) esp;
-				if (u.pegaDescricao().equals(bairro)) {
-					return esp;
-				}
-			}
-		}
-		return null;
+		
+		throw new ObjetoInexistenteException("Unidade de saude nao existente");
 	}
 
 }

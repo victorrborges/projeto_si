@@ -38,7 +38,8 @@ public class QueixaServiceImpl implements QueixaService {
     }
     
     private boolean existe(Queixa queixa) {
-        return (this.queixaRepository.findOne(queixa.getId()) != null);
+    	return this.queixaRepository.exists(queixa.getId());
+        
     }
 
     public void deleteQueixa(long queixaId) throws ObjetoInexistenteException {
@@ -56,7 +57,7 @@ public class QueixaServiceImpl implements QueixaService {
     }
     
     private boolean existe(long queixaId) {
-        return (this.queixaRepository.findOne(queixaId) != null);
+        return this.queixaRepository.exists(queixaId);
     }
 
 	@Override
