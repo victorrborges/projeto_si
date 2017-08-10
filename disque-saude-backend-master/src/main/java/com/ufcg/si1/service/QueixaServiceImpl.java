@@ -2,6 +2,7 @@ package com.ufcg.si1.service;
 
 import org.springframework.stereotype.Service;
 
+import com.ufcg.si1.model.Pessoa;
 import com.ufcg.si1.model.Queixa;
 
 import java.util.ArrayList;
@@ -24,25 +25,22 @@ public class QueixaServiceImpl implements QueixaService {
     }
 
     private static List<Queixa> populateDummyQueixas() {
+    	
         List<Queixa> queixas = new ArrayList<Queixa>();
 
-        queixas.add(new Queixa(counter.incrementAndGet(), "Passei mal com uma coxinha",
-                 "", "Jose Silva",
-                "jose@gmail.com", "rua dos tolos", "PE", "Recife"));
+        Pessoa jose = new Pessoa("Jose Silva",
+                "jose@gmail.com", "rua dos tolos", "PE", "Recife");
+        
+        queixas.add(new Queixa("Passei mal com uma coxinha", "", jose.getId()));
 
+        Pessoa ailton = new Pessoa("Ailton Sousa", "ailton@gmail.com", "rua dos bobos", "PB",
+                "Joao Pessoa");
+        
+        queixas.add(new Queixa("Bacalhau estragado, passamos mal!", "", ailton.getId()));
 
-        queixas.add(new Queixa(counter.incrementAndGet(),
-                "Bacalhau estragado, passamos mal!", "",
-                "Ailton Sousa", "ailton@gmail.com", "rua dos bobos", "PB",
-                "Joao Pessoa"));
+        queixas.add(new Queixa("Nossa rua estah muito suja",  "", jose.getId()));
 
-        queixas.add(new Queixa(counter.incrementAndGet(), "Nossa rua estah muito suja",  "",
-                "Jose Silva", "jose@gmail.com", "rua dos tolos", "PE", "Recife"));
-
-
-        queixas.add(new Queixa(counter.incrementAndGet(), "iluminacao horrivel, muitos assaltos", "",
-                "Ailton Sousa", "ailton@gmail.com", "rua dos bobos", "PB",
-                "Joao Pessoa"));
+        queixas.add(new Queixa("iluminacao horrivel, muitos assaltos", "", ailton.getId()));
         
         return queixas;
 
@@ -86,15 +84,11 @@ public class QueixaServiceImpl implements QueixaService {
     }
     
     public int numeroDeQueixasAbertas() {
-    	return this.queixasAbertas.size();
+    	return queixasAbertas.size();
     }
 
 	public int numeroDeQueixasTotais() {
-		return this.queixasAbertas.size() + this.queixasFechadas.size();
+		return queixasAbertas.size() + queixasFechadas.size();
 	}
-
-	
-
-
 
 }

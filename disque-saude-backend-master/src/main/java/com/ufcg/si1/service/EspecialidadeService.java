@@ -26,4 +26,6 @@ public interface EspecialidadeService {
     public boolean existe(long codigo);
 
     public Especialidade findById(long id);
+    
+    public List<Especialidade> especialidadesDaUnidade(long unidadeSaudeId);
 }

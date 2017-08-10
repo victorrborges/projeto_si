@@ -24,15 +24,15 @@ public class UnidadeSaude {
 
     private String descricao;
 
-    private List<Especialidade> especialidades = new ArrayList<Especialidade>();
-
     private long [] numeroQueixas = new long[1000];
     int contador = 0;
 
     public UnidadeSaude(String descricao) {
         this.descricao = descricao;
     }
-    public UnidadeSaude(){
+    
+    public UnidadeSaude() {
+    	
     }
 
     public void addQueixaProxima(long id) {
@@ -49,13 +49,16 @@ public class UnidadeSaude {
         this.descricao = descricao;
     }
 
-    public List<Especialidade> getEspecialidades() {
-        return this.especialidades;
-    }
-
-    public void adicionarEspecialidade(Especialidade esp) {
-        this.especialidades.add(esp);
-    }
+    // Método abaixo será implementado no service (varrer todas as queixas no db e 
+    // retornar as que possuem o id da Unidade de Saude).
+    
+//    public List<Especialidade> getEspecialidades() {
+//        return this.especialidades;
+//    }
+//
+//    public void adicionarEspecialidade(Especialidade esp) {
+//        this.especialidades.add(esp);
+//    }
     
 	public long getId() {
 		return id;

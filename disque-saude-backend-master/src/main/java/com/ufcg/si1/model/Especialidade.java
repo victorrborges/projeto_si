@@ -12,9 +12,16 @@ public class Especialidade {
     private long id;
 
     private String descricao;
+    
+    private long unidadeSaudeId;
 
-    public Especialidade(String descricao) {
+//    public Especialidade(String descricao) {
+//        this.descricao = descricao;
+//    }
+    
+    public Especialidade(String descricao, long unidadeSaudeId) {
         this.descricao = descricao;
+        this.unidadeSaudeId = unidadeSaudeId;
     }
 
     public Especialidade(){
@@ -35,6 +42,14 @@ public class Especialidade {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public long getUnidadeSaudeId() {
+		return unidadeSaudeId;
+	}
+
+	public void setUnidadeSaudeId(long unidadeSaudeId) {
+		this.unidadeSaudeId = unidadeSaudeId;
 	}
 
    

@@ -6,6 +6,8 @@ import exceptions.Rep;
 
 import java.util.List;
 
+import com.ufcg.si1.model.Especialidade;
+
 
 public interface UnidadeSaudeService {
     Object procura(int codigo) throws Rep,
@@ -21,4 +23,5 @@ public interface UnidadeSaudeService {
     Object findById(long id);
 
     Object findByBairro(String bairro);
+
 }

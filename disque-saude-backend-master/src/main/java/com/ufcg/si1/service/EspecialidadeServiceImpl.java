@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service("especialidadeService")
@@ -90,6 +91,11 @@ public class EspecialidadeServiceImpl implements EspecialidadeService {
 		}   	
 
         return null;
+    }
+    
+    public List<Especialidade> especialidadesDaUnidade(long unidadeSaudeId) {
+    	//TODO
+    	return null;
     }
 
 

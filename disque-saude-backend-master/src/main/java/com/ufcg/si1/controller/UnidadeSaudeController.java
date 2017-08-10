@@ -3,6 +3,7 @@ package com.ufcg.si1.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.ufcg.si1.model.Especialidade;
 import com.ufcg.si1.model.PostoSaude;
 import com.ufcg.si1.model.UnidadeSaude;
 import com.ufcg.si1.service.UnidadeSaudeService;
@@ -31,28 +33,9 @@ import exceptions.Rep;
 @RequestMapping("/api")
 @CrossOrigin
 public class UnidadeSaudeController {
+	
+	@Autowired
 	private UnidadeSaudeService unidadeSaudeService = new UnidadeSaudeServiceImpl();
-
-	// Especialidade
-
-	@RequestMapping(value = "/especialidade/unidades", method = RequestMethod.GET)
-	public ResponseEntity<?> consultaEspecialidadeporUnidadeSaude(@RequestBody int codigoUnidadeSaude) {
-
-		Object us = null;
-		try {
-			us = unidadeSaudeService.procura(codigoUnidadeSaude);
-		} catch (Rep e) {
-			return new ResponseEntity<List>(HttpStatus.NOT_FOUND);
-		} catch (ObjetoInexistenteException e) {
-			return new ResponseEntity<List>(HttpStatus.NOT_FOUND);
-		}
-		if (us instanceof UnidadeSaude) {
-			UnidadeSaude us1 = (UnidadeSaude) us;
-			return new ResponseEntity<>(us1.getEspecialidades(), HttpStatus.OK);
-		}
-
-		return new ResponseEntity<List>(HttpStatus.NOT_FOUND);
-	}
 
 	@RequestMapping(value = "/unidade/", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllUnidades() {

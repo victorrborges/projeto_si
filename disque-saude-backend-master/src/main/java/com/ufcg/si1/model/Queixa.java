@@ -1,12 +1,10 @@
 package com.ufcg.si1.model;
 
-import exceptions.ObjetoInvalidoException;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.ufcg.si1.util.FactoryPessoa;
+import exceptions.ObjetoInvalidoException;
 
 @Entity
 public class Queixa {
@@ -17,7 +15,7 @@ public class Queixa {
 
 	private String descricao;
 
-	private Pessoa solicitante;
+	private long solicitanteId;
 
 	private String comentario = ""; // usado na atualizacao da queixa
 
@@ -26,23 +24,20 @@ public class Queixa {
 	}
 	
 	public Queixa(String descricao,
-            String nome, String email,
-			  String rua, String uf, String cidade) {
+            long solicitanteId) {
 	this.descricao = descricao;
 	this.comentario = "";
-	this.solicitante = FactoryPessoa.criaPessoa(nome, email, rua, uf, cidade);
+	this.solicitanteId = solicitanteId;
 }
 
 
-	public Queixa(long id, String descricao, String comentario,
-                  String nome, String email,
-				  String rua, String uf, String cidade) {
-		this.id = id;
+	public Queixa(String descricao, String comentario,
+                  long solicitanteId) {
 		this.descricao = descricao;
 		this.comentario = comentario;
-		this.solicitante = new Pessoa(nome, email, rua, uf, cidade);
+		this.solicitanteId = solicitanteId;
 	}
-
+	
 	public long getId() {
 		return id;
 	}
@@ -59,9 +54,12 @@ public class Queixa {
 		this.descricao = descricao;
 	}
 
-	
-	public void fechar(String coment) throws ObjetoInvalidoException {
-		this.comentario = coment;
+	public long getSolicitanteId() {
+		return solicitanteId;
+	}
+
+	public void setSolicitanteId(long solicitanteId) {
+		this.solicitanteId = solicitanteId;
 	}
 
 	public String getComentario() {
@@ -71,13 +69,9 @@ public class Queixa {
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
-
-	public Pessoa getSolicitante() {
-		return solicitante;
-	}
-
-	public void setSolicitante(Pessoa solicitante) {
-		this.solicitante = solicitante;
+	
+	public void fechar(String coment) throws ObjetoInvalidoException {
+		this.comentario = coment;
 	}
 
 	@Override

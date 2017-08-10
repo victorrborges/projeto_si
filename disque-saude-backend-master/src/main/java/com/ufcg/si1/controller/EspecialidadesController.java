@@ -1,5 +1,7 @@
 package com.ufcg.si1.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,4 +54,13 @@ public class EspecialidadesController {
         }
         return new ResponseEntity<Especialidade>(q, HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "unidade/{unidadeSaudeId}/especialidades/", method = RequestMethod.GET)
+	public ResponseEntity<?> consultaEspecialidadeporUnidadeSaude(@RequestBody long unidadeSaudeId) {
+		
+		List<Especialidade> especialidades = especialidadeService.especialidadesDaUnidade(unidadeSaudeId);
+		return new ResponseEntity<>(especialidades, HttpStatus.OK);
+		
+	}
+    
 }

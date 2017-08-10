@@ -1,6 +1,6 @@
 package com.ufcg.si1.service;
 
-import br.edu.ufcg.Hospital;
+import com.ufcg.si1.model.Especialidade;
 import com.ufcg.si1.model.UnidadeSaude;
 import exceptions.ObjetoInexistenteException;
 import exceptions.ObjetoJaExistenteException;
@@ -111,4 +111,5 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 		}
 		return null;
 	}
+
 }
