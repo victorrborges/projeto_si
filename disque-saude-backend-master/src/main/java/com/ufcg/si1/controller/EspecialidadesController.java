@@ -18,6 +18,7 @@ import com.ufcg.si1.service.EspecialidadeService;
 import com.ufcg.si1.service.EspecialidadeServiceImpl;
 import com.ufcg.si1.util.CustomErrorType;
 
+import exceptions.ObjetoInexistenteException;
 import exceptions.ObjetoJaExistenteException;
 import exceptions.Rep;
 
@@ -31,14 +32,13 @@ public class EspecialidadesController {
 	
     @RequestMapping(value = "/especialidade/", method = RequestMethod.POST)
     public ResponseEntity<String> incluirEspecialidade(@RequestBody Especialidade esp, UriComponentsBuilder ucBuilder) {
+        
         try {
-            especialidadeService.insere(esp);
-        } catch (Rep e) {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        	this.especialidadeService.insere(esp);
         } catch (ObjetoJaExistenteException e) {
-            return new ResponseEntity<String>(HttpStatus.CONFLICT);
+        	return new ResponseEntity<String>("Objeto ja existente", HttpStatus.CONFLICT);
         }
-
+       
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/especialidade/{id}").buildAndExpand(esp.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
@@ -47,12 +47,15 @@ public class EspecialidadesController {
     @RequestMapping(value = "/especialidade/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> consultarEspecialidade(@PathVariable("id") long id) {
 
-        Especialidade q = especialidadeService.findById(id);
-        if (q == null) {
+        try {
+        	Especialidade q = especialidadeService.getEspecialidade(id);
+        	return new ResponseEntity<Especialidade>(q, HttpStatus.OK);
+        } catch (Rep e) {
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        } catch (ObjetoInexistenteException e) {
             return new ResponseEntity(new CustomErrorType("Especialidade with id " + id
                     + " not found"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Especialidade>(q, HttpStatus.OK);
     }
     
     @RequestMapping(value = "unidade/{unidadeSaudeId}/especialidades/", method = RequestMethod.GET)
