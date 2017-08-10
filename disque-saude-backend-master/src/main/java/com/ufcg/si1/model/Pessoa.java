@@ -1,5 +1,6 @@
 package com.ufcg.si1.model;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +15,8 @@ public class Pessoa {
 	private String nome;
 	
 	private String email;
-
+	
+	@Embedded
 	private Endereco endereco;
 	
 	public Pessoa() {

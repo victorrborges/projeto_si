@@ -31,7 +31,7 @@ public class Queixa {
 	public Queixa(String descricao, SituacaoQueixa situacao,
             long solicitanteId) {
 	this.descricao = descricao;
-	this.setSituacao(situacao);
+	this.situacao = situacao;
 	this.comentario = "";
 	this.solicitanteId = solicitanteId;
 }

@@ -1,7 +1,10 @@
 package com.ufcg.si1.model;
 
-public class Endereco {
+import javax.persistence.Embeddable;
 
+@Embeddable
+public class Endereco {
+	
 	private String rua;
 
 	private String uf;
@@ -41,4 +44,5 @@ public class Endereco {
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
+	
 }

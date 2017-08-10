@@ -8,8 +8,6 @@ import java.util.List;
 
 import com.ufcg.si1.model.UnidadeSaude;
 
-
-
 public interface UnidadeSaudeService {
     
 	UnidadeSaude findOneUnidade(long unidadeSaudeId) throws ObjetoInexistenteException;
