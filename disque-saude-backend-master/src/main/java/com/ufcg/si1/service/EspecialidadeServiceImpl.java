@@ -21,7 +21,7 @@ public class EspecialidadeServiceImpl implements EspecialidadeService {
 	EspecialidadeRepository especialidadeRespository;
 
     @Override
-    public Especialidade getEspecialidade(long espId) throws Rep,ObjetoInexistenteException {
+    public Especialidade findOneEspecialidade(long espId) throws Rep,ObjetoInexistenteException {
     	Especialidade especialidadeProcurada = this.especialidadeRespository.findOne(espId);
     	
     	if (especialidadeProcurada != null) return especialidadeProcurada;
@@ -29,32 +29,25 @@ public class EspecialidadeServiceImpl implements EspecialidadeService {
     }
 
     @Override
-    public Collection<Especialidade> getListaEspecialidade() {
+    public Collection<Especialidade> findAllEspecialidades() {
     	return this.especialidadeRespository.findAll();
     }
 
     @Override
-    public int size() {
-        return this.getListaEspecialidade().size();
-    }
-
-
-    @Override
-    public void insere(Especialidade esp) throws ObjetoJaExistenteException {
+    public void save(Especialidade esp) throws ObjetoJaExistenteException {
     	if (this.existe(esp.getId())) {
     		throw new ObjetoJaExistenteException("Objeto ja existente");
     	}
     	this.especialidadeRespository.save(esp);
     }
 
-    @Override
-    public boolean existe(long espId) {
+    private boolean existe(long espId) {
         return (this.especialidadeRespository.findOne(espId) != null);
     }
     
-    public List<Especialidade> especialidadesDaUnidade(long unidadeSaudeId) {
+    public List<Especialidade> getEspecialidadesDaUnidade(long unidadeSaudeId) {
     	List<Especialidade> especialidadesDaUnidade = new ArrayList<Especialidade>();
-    	for(Especialidade especialidade : this.getListaEspecialidade()) {
+    	for(Especialidade especialidade : this.findAllEspecialidades()) {
     		if (especialidade.getUnidadeSaudeId() == unidadeSaudeId) {
     			especialidadesDaUnidade.add(especialidade);
     		}

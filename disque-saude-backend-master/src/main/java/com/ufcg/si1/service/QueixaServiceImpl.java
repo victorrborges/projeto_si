@@ -1,94 +1,74 @@
 package com.ufcg.si1.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ufcg.si1.model.Pessoa;
 import com.ufcg.si1.model.Queixa;
+import com.ufcg.si1.model.SituacaoQueixa;
+import com.ufcg.si1.repository.QueixaRepository;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import exceptions.ObjetoInexistenteException;
+import exceptions.ObjetoJaExistenteException;
+
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 
 @Service("queixaService")
 public class QueixaServiceImpl implements QueixaService {
-
-    private static final AtomicLong counter = new AtomicLong();
-
-    private static List<Queixa> queixasAbertas;
-    private static List<Queixa> queixasFechadas;
-
-    static {
-        queixasFechadas = populateDummyQueixas();
-        queixasAbertas = new ArrayList<Queixa>();
-    }
-
-    private static List<Queixa> populateDummyQueixas() {
-    	
-        List<Queixa> queixas = new ArrayList<Queixa>();
-
-        Pessoa jose = new Pessoa("Jose Silva",
-                "jose@gmail.com", "rua dos tolos", "PE", "Recife");
-        
-        queixas.add(new Queixa("Passei mal com uma coxinha", "", jose.getId()));
-
-        Pessoa ailton = new Pessoa("Ailton Sousa", "ailton@gmail.com", "rua dos bobos", "PB",
-                "Joao Pessoa");
-        
-        queixas.add(new Queixa("Bacalhau estragado, passamos mal!", "", ailton.getId()));
-
-        queixas.add(new Queixa("Nossa rua estah muito suja",  "", jose.getId()));
-
-        queixas.add(new Queixa("iluminacao horrivel, muitos assaltos", "", ailton.getId()));
-        
-        return queixas;
-
-    }
+	
+	@Autowired
+	QueixaRepository queixaRepository;
 
     public List<Queixa> findAllQueixas() {
-        return queixasAbertas;
+        return this.queixaRepository.findAll();
     }
 
-    public void registraQueixa(Queixa queixa) {
-        queixa.setId(counter.incrementAndGet());
-        queixasAbertas.add(queixa);       
+    public void save(Queixa queixa) throws ObjetoJaExistenteException {
+    	if (this.existe(queixa)) {
+    		throw new ObjetoJaExistenteException("Queixa ja existente");
+    	}
+        this.queixaRepository.save(queixa);       
     }
 
-    public void updateQueixa(Queixa queixa) {
-        int index = queixasAbertas.indexOf(queixa);
-        queixasAbertas.set(index, queixa);
-    }
-
-    public void deleteQueixaById(long id) {
-
-        for (Iterator<Queixa> iterator = queixasAbertas.iterator(); iterator.hasNext(); ) {
-            Queixa q = iterator.next();
-            if (q.getId() == id) {
-                iterator.remove();
-            }
-        }
-    }
-
-    public void deleteAllUsers() {
-        queixasAbertas.clear();
-    }
-
-    public Queixa findById(long id) {
-        for (Queixa queixa : queixasAbertas) {
-            if (queixa.getId() == id) {
-                return queixa;
-            }
-        }
-        return null;
+    public void updateQueixa(Queixa queixa) throws ObjetoInexistenteException {
+    	if (!this.existe(queixa)) {
+    		throw new ObjetoInexistenteException("Queixa nao existente");
+    	}
+    	this.queixaRepository.save(queixa);
     }
     
-    public int numeroDeQueixasAbertas() {
-    	return queixasAbertas.size();
+    private boolean existe(Queixa queixa) {
+        return (this.queixaRepository.findOne(queixa.getId()) != null);
     }
 
-	public int numeroDeQueixasTotais() {
-		return queixasAbertas.size() + queixasFechadas.size();
+    public void deleteQueixa(long queixaId) throws ObjetoInexistenteException {
+    	if (!this.existe(queixaId)) {
+    		throw new ObjetoInexistenteException("Queixa nao existente");
+    	}
+    	this.queixaRepository.delete(queixaId);
+    }
+
+    public Queixa findOneQueixa(long queixaId) throws ObjetoInexistenteException {
+    	if (!this.existe(queixaId)) {
+    		throw new ObjetoInexistenteException("Queixa nao existente");
+    	}
+        return this.queixaRepository.findOne(queixaId);
+    }
+    
+    private boolean existe(long queixaId) {
+        return (this.queixaRepository.findOne(queixaId) != null);
+    }
+
+	@Override
+	public double razaoQueixas() {
+		int queixasTotais = this.findAllQueixas().size();
+		int queixasAbertas = 0;
+		for (Queixa queixa : this.findAllQueixas()) {
+			if (queixa.getSituacao().equals(SituacaoQueixa.ABERTA)) {
+				queixasAbertas++;
+			}
+		}
+		return (queixasAbertas / queixasTotais);
 	}
 
 }

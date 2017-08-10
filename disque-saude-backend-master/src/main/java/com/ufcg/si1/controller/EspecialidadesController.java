@@ -34,7 +34,7 @@ public class EspecialidadesController {
     public ResponseEntity<String> incluirEspecialidade(@RequestBody Especialidade esp, UriComponentsBuilder ucBuilder) {
         
         try {
-        	this.especialidadeService.insere(esp);
+        	this.especialidadeService.save(esp);
         } catch (ObjetoJaExistenteException e) {
         	return new ResponseEntity<String>("Objeto ja existente", HttpStatus.CONFLICT);
         }
@@ -44,11 +44,12 @@ public class EspecialidadesController {
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
     
-    @RequestMapping(value = "/especialidade/{id}", method = RequestMethod.GET)
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/especialidade/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> consultarEspecialidade(@PathVariable("id") long id) {
 
         try {
-        	Especialidade q = especialidadeService.getEspecialidade(id);
+        	Especialidade q = especialidadeService.findOneEspecialidade(id);
         	return new ResponseEntity<Especialidade>(q, HttpStatus.OK);
         } catch (Rep e) {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -61,7 +62,7 @@ public class EspecialidadesController {
     @RequestMapping(value = "unidade/{unidadeSaudeId}/especialidades/", method = RequestMethod.GET)
 	public ResponseEntity<?> consultaEspecialidadeporUnidadeSaude(@RequestBody long unidadeSaudeId) {
 		
-		List<Especialidade> especialidades = especialidadeService.especialidadesDaUnidade(unidadeSaudeId);
+		List<Especialidade> especialidades = especialidadeService.getEspecialidadesDaUnidade(unidadeSaudeId);
 		return new ResponseEntity<>(especialidades, HttpStatus.OK);
 		
 	}

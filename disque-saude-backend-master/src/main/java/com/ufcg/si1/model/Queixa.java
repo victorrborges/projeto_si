@@ -1,6 +1,8 @@
 package com.ufcg.si1.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -18,14 +20,18 @@ public class Queixa {
 	private long solicitanteId;
 
 	private String comentario = ""; // usado na atualizacao da queixa
+	
+	@Enumerated(EnumType.STRING)
+	private SituacaoQueixa situacao;
 
 	public Queixa(){
 
 	}
 	
-	public Queixa(String descricao,
+	public Queixa(String descricao, SituacaoQueixa situacao,
             long solicitanteId) {
 	this.descricao = descricao;
+	this.setSituacao(situacao);
 	this.comentario = "";
 	this.solicitanteId = solicitanteId;
 }
@@ -70,8 +76,28 @@ public class Queixa {
 		this.comentario = comentario;
 	}
 	
+	public SituacaoQueixa getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(SituacaoQueixa situacao) {
+		this.situacao = situacao;
+	}
+	
+	public void abrir() throws ObjetoInvalidoException {
+		if (this.situacao != SituacaoQueixa.EM_ANDAMENTO)
+			this.situacao = SituacaoQueixa.ABERTA;
+		else
+			throw new ObjetoInvalidoException("Status inválido");
+	}
+
 	public void fechar(String coment) throws ObjetoInvalidoException {
-		this.comentario = coment;
+		if (this.situacao == SituacaoQueixa.EM_ANDAMENTO
+				|| this.situacao == SituacaoQueixa.ABERTA) {
+			this.situacao = SituacaoQueixa.FECHADA;
+			this.comentario = coment;
+		} else
+			throw new ObjetoInvalidoException("Status Inválido");
 	}
 
 	@Override
