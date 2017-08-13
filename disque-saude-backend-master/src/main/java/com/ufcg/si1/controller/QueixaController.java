@@ -70,7 +70,7 @@ public class QueixaController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/{queixaId}", method = RequestMethod.GET)
-	public ResponseEntity<?> consultarQueixa(@PathVariable("queixaId") long queixaId) {
+	public ResponseEntity<?> consultarQueixa(@PathVariable("queixaId") Long queixaId) {
 
 		try {
 			Queixa queixa = queixaService.findOneQueixa(queixaId);
@@ -83,7 +83,7 @@ public class QueixaController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/{queixaId}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateQueixa(@PathVariable("queixaId") long queixaId, @RequestBody Queixa queixa) {
+	public ResponseEntity<?> updateQueixa(@PathVariable("queixaId") Long queixaId, @RequestBody Queixa queixa) {
 
 		try {
 			Queixa currentQueixa = queixaService.findOneQueixa(queixaId);
@@ -102,7 +102,7 @@ public class QueixaController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/queixa/{queixaId}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteUser(@PathVariable("queixaId") long queixaId) {
+	public ResponseEntity<?> deleteUser(@PathVariable("queixaId") Long queixaId) {
 		
 		try {
 			queixaService.deleteQueixa(queixaId);

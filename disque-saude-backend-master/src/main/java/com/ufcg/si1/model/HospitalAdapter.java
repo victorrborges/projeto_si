@@ -9,7 +9,7 @@ public class HospitalAdapter extends PostoSaude {
 	private Hospital hospital;
 	
 
-    public void addQueixaProxima(long id) {
+    public void addQueixaProxima(Long id) {
     	// TODO
     }
 

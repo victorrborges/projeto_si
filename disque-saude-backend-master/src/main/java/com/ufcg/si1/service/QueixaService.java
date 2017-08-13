@@ -12,11 +12,11 @@ public interface QueixaService {
 	
 	public void save(Queixa queixa) throws ObjetoJaExistenteException;
 
-    public Queixa findOneQueixa(long id) throws ObjetoInexistenteException;
+    public Queixa findOneQueixa(Long id) throws ObjetoInexistenteException;
 
 	public void updateQueixa(Queixa user) throws ObjetoInexistenteException;
 
-	public void deleteQueixa(long id) throws ObjetoInexistenteException;
+	public void deleteQueixa(Long id) throws ObjetoInexistenteException;
 	
 	public double razaoQueixas();
 	

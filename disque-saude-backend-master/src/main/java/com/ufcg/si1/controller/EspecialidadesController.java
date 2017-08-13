@@ -48,7 +48,7 @@ public class EspecialidadesController {
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/especialidade/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> consultarEspecialidade(@PathVariable("id") long id) {
+    public ResponseEntity<?> consultarEspecialidade(@PathVariable("id") Long id) {
 
         try {
         	Especialidade q = especialidadeService.findOneEspecialidade(id);
@@ -62,7 +62,7 @@ public class EspecialidadesController {
     }
     
     @RequestMapping(value = "unidade/{unidadeSaudeId}/especialidades/", method = RequestMethod.GET)
-	public ResponseEntity<?> consultaEspecialidadeporUnidadeSaude(@RequestBody long unidadeSaudeId) {
+	public ResponseEntity<?> consultaEspecialidadeporUnidadeSaude(@RequestBody Long unidadeSaudeId) {
 		
 		List<Especialidade> especialidades = especialidadeService.getEspecialidadesDaUnidade(unidadeSaudeId);
 		return new ResponseEntity<>(especialidades, HttpStatus.OK);

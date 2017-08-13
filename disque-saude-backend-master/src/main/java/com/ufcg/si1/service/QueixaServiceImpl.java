@@ -42,21 +42,21 @@ public class QueixaServiceImpl implements QueixaService {
         
     }
 
-    public void deleteQueixa(long queixaId) throws ObjetoInexistenteException {
+    public void deleteQueixa(Long queixaId) throws ObjetoInexistenteException {
     	if (!this.existe(queixaId)) {
     		throw new ObjetoInexistenteException("Queixa nao existente");
     	}
     	this.queixaRepository.delete(queixaId);
     }
 
-    public Queixa findOneQueixa(long queixaId) throws ObjetoInexistenteException {
+    public Queixa findOneQueixa(Long queixaId) throws ObjetoInexistenteException {
     	if (!this.existe(queixaId)) {
     		throw new ObjetoInexistenteException("Queixa nao existente");
     	}
         return this.queixaRepository.findOne(queixaId);
     }
     
-    private boolean existe(long queixaId) {
+    private boolean existe(Long queixaId) {
         return this.queixaRepository.exists(queixaId);
     }
 

@@ -13,11 +13,11 @@ public class Queixa {
 	
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 
 	private String descricao;
 
-	private long solicitanteId;
+	private Long solicitanteId;
 
 	private String comentario = ""; // usado na atualizacao da queixa
 	
@@ -29,7 +29,7 @@ public class Queixa {
 	}
 	
 	public Queixa(String descricao, SituacaoQueixa situacao,
-            long solicitanteId) {
+            Long solicitanteId) {
 	this.descricao = descricao;
 	this.situacao = situacao;
 	this.comentario = "";
@@ -38,17 +38,17 @@ public class Queixa {
 
 
 	public Queixa(String descricao, String comentario,
-                  long solicitanteId) {
+                  Long solicitanteId) {
 		this.descricao = descricao;
 		this.comentario = comentario;
 		this.solicitanteId = solicitanteId;
 	}
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -60,11 +60,11 @@ public class Queixa {
 		this.descricao = descricao;
 	}
 
-	public long getSolicitanteId() {
+	public Long getSolicitanteId() {
 		return solicitanteId;
 	}
 
-	public void setSolicitanteId(long solicitanteId) {
+	public void setSolicitanteId(Long solicitanteId) {
 		this.solicitanteId = solicitanteId;
 	}
 

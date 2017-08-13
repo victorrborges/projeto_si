@@ -76,7 +76,7 @@ public class UnidadeSaudeController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/unidade/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> consultarUnidadeSaude(@PathVariable("id") long id) {
+	public ResponseEntity<?> consultarUnidadeSaude(@PathVariable("id") Long id) {
 		try {
 			UnidadeSaude unidadeSaude = unidadeSaudeService.findOneUnidade(id);
 			return new ResponseEntity<>(unidadeSaude, HttpStatus.OK);
@@ -87,7 +87,7 @@ public class UnidadeSaudeController {
 	}
 
 	@RequestMapping(value = "/geral/medicos/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> calcularMediaMedicoPacienteDia(@PathVariable("id") long id) {
+	public ResponseEntity<?> calcularMediaMedicoPacienteDia(@PathVariable("id") Long id) {
 
 		try {
 			PostoSaude unidadeSaude = (PostoSaude) unidadeSaudeService.findOneUnidade(id);

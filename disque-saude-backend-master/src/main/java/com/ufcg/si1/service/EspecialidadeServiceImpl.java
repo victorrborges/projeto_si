@@ -21,7 +21,7 @@ public class EspecialidadeServiceImpl implements EspecialidadeService {
 	EspecialidadeRepository especialidadeRespository;
 
     @Override
-    public Especialidade findOneEspecialidade(long espId) throws Rep,ObjetoInexistenteException {
+    public Especialidade findOneEspecialidade(Long espId) throws Rep,ObjetoInexistenteException {
     	Especialidade especialidadeProcurada = this.especialidadeRespository.findOne(espId);
     	
     	if (especialidadeProcurada != null) return especialidadeProcurada;
@@ -41,11 +41,11 @@ public class EspecialidadeServiceImpl implements EspecialidadeService {
     	this.especialidadeRespository.save(esp);
     }
 
-    private boolean existe(long espId) {
+    private boolean existe(Long espId) {
         return (this.especialidadeRespository.findOne(espId) != null);
     }
     
-    public List<Especialidade> getEspecialidadesDaUnidade(long unidadeSaudeId) {
+    public List<Especialidade> getEspecialidadesDaUnidade(Long unidadeSaudeId) {
     	List<Especialidade> especialidadesDaUnidade = new ArrayList<Especialidade>();
     	for(Especialidade especialidade : this.findAllEspecialidades()) {
     		if (especialidade.getUnidadeSaudeId() == unidadeSaudeId) {

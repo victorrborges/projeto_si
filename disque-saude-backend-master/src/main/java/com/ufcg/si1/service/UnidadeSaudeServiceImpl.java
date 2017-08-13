@@ -19,14 +19,14 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 	UnidadeSaudeRepository unidadeSaudeRepository;
 
 	@Override
-	public UnidadeSaude findOneUnidade(long unidadeSaudeId) throws ObjetoInexistenteException {
+	public UnidadeSaude findOneUnidade(Long unidadeSaudeId) throws ObjetoInexistenteException {
 		if (!this.existe(unidadeSaudeId)) {
 			throw new ObjetoInexistenteException("Unidade de saude inexistente");
 		}
 		return this.unidadeSaudeRepository.findOne(unidadeSaudeId);
 	}
 
-	private boolean existe(long unidadeSaudeId) {
+	private boolean existe(Long unidadeSaudeId) {
 
 		return this.unidadeSaudeRepository.exists(unidadeSaudeId);
 	}
