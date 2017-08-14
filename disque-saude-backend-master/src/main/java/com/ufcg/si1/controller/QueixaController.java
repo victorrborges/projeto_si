@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.si1.model.Queixa;
+import com.ufcg.si1.service.PrefeituraService;
+import com.ufcg.si1.service.PrefeituraServiceImpl;
 import com.ufcg.si1.service.QueixaService;
 import com.ufcg.si1.service.QueixaServiceImpl;
 import com.ufcg.si1.util.CustomErrorType;
@@ -31,10 +33,9 @@ public class QueixaController {
 	@Autowired
 	private QueixaService queixaService = new QueixaServiceImpl();
 
-	/*
-	 * situação normal =0 situação extra =1
-	 */
-	private int situacaoAtualPrefeitura = 0;
+	@Autowired
+	private PrefeituraService prefeituraService = new PrefeituraServiceImpl();
+
 
 	// -------------------Retrieve All
 	// Complaints---------------------------------------------
@@ -42,7 +43,7 @@ public class QueixaController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/", method = RequestMethod.GET)
 	public ResponseEntity<List<Queixa>> listAllQueixas() {
-		
+
 		List<Queixa> queixas = queixaService.findAllQueixas();
 
 		if (queixas.isEmpty()) {
@@ -57,12 +58,12 @@ public class QueixaController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/", method = RequestMethod.POST)
 	public ResponseEntity<?> abrirQueixa(@RequestBody Queixa queixa, UriComponentsBuilder ucBuilder) {
-		
+
 		try {
 			queixaService.save(queixa);
 		} catch (ObjetoJaExistenteException e) {
-			return new ResponseEntity(new CustomErrorType("Esta queixa já existe" + 
-											queixa.getDescricao()),HttpStatus.CONFLICT);
+			return new ResponseEntity(new CustomErrorType("Esta queixa já existe" + queixa.getDescricao()),
+					HttpStatus.CONFLICT);
 		}
 
 		return new ResponseEntity<Queixa>(queixa, HttpStatus.CREATED);
@@ -76,9 +77,10 @@ public class QueixaController {
 			Queixa queixa = queixaService.findOneQueixa(queixaId);
 			return new ResponseEntity<Queixa>(queixa, HttpStatus.OK);
 		} catch (ObjetoInexistenteException e) {
-			return new ResponseEntity(new CustomErrorType("Queixa with id " + queixaId + " not found"), HttpStatus.NOT_FOUND);
+			return new ResponseEntity(new CustomErrorType("Queixa with id " + queixaId + " not found"),
+					HttpStatus.NOT_FOUND);
 		}
-		
+
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -87,15 +89,16 @@ public class QueixaController {
 
 		try {
 			Queixa currentQueixa = queixaService.findOneQueixa(queixaId);
-			
+
 			currentQueixa.setDescricao(queixa.getDescricao());
 			currentQueixa.setComentario(queixa.getComentario());
 
 			queixaService.updateQueixa(currentQueixa);
 			return new ResponseEntity<Queixa>(currentQueixa, HttpStatus.OK);
-			
+
 		} catch (ObjetoInexistenteException e) {
-			return new ResponseEntity(new CustomErrorType("Unable to upate. Queixa with id " + queixaId + " not found."),
+			return new ResponseEntity(
+					new CustomErrorType("Unable to upate. Queixa with id " + queixaId + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 	}
@@ -103,15 +106,16 @@ public class QueixaController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/queixa/{queixaId}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteUser(@PathVariable("queixaId") Long queixaId) {
-		
+
 		try {
 			queixaService.deleteQueixa(queixaId);
 			return new ResponseEntity<Queixa>(HttpStatus.NO_CONTENT);
 		} catch (ObjetoInexistenteException e) {
-			return new ResponseEntity(new CustomErrorType("Unable to delete. Queixa with id " + queixaId + " not found."),
+			return new ResponseEntity(
+					new CustomErrorType("Unable to delete. Queixa with id " + queixaId + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
-		
+
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -122,12 +126,13 @@ public class QueixaController {
 		} catch (ObjetoInvalidoException e) {
 			return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		try {
 			this.queixaService.updateQueixa(queixaAFechar);
 			return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.OK);
 		} catch (ObjetoInexistenteException e) {
-			return new ResponseEntity(new CustomErrorType("Unable to close. Queixa with id " + queixaAFechar.getId() + " not found."),
+			return new ResponseEntity(
+					new CustomErrorType("Unable to close. Queixa with id " + queixaAFechar.getId() + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 	}
@@ -135,33 +140,9 @@ public class QueixaController {
 	@RequestMapping(value = "/geral/situacao", method = RequestMethod.GET)
 	public ResponseEntity<?> getSituacaoGeralQueixas() {
 
-		// dependendo da situacao da prefeitura, o criterio de avaliacao muda
-		// se normal, mais de 20% abertas eh ruim, mais de 10 eh regular
-		// se extra, mais de 10% abertas eh ruim, mais de 5% eh regular
-		if (situacaoAtualPrefeitura == 0) {
-			if (queixaService.razaoQueixas() > 0.2) {
-				return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(0), HttpStatus.OK);
-			} else {
-				if (queixaService.razaoQueixas() > 0.1) {
-					return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(1), HttpStatus.OK);
-				}
-			}
-		}
-		if (this.situacaoAtualPrefeitura == 1) {
-			if (queixaService.razaoQueixas() > 0.1) {
-				return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(0), HttpStatus.OK);
-			} else {
-				if (queixaService.razaoQueixas() > 0.05) {
-					return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(1), HttpStatus.OK);
-				}
-			}
-		}
+		Integer eficiencia = this.prefeituraService.getEficiencia(this.queixaService.razaoQueixas());
 
-		// situacao retornada
-		// 0: RUIM
-		// 1: REGULAR
-		// 2: BOM
-		return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(2), HttpStatus.OK);
+		return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(eficiencia), HttpStatus.OK);
 	}
 
 }
