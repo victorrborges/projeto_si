@@ -23,8 +23,6 @@ public class Queixa {
 	
 	public QueixaState queixaState;
 	
-	public QueixaFactory queixaFactory;
-	
 	public Queixa(){
 
 	}
@@ -32,7 +30,7 @@ public class Queixa {
 	public Queixa(String descricao, int situacao,
             Long solicitanteId) {
 	this.descricao = descricao;
-	this.queixaState = queixaFactory.criarQueixa(situacao);
+	this.queixaState = new Aberta();
 	this.comentario = "";
 	this.solicitanteId = solicitanteId;
 }
