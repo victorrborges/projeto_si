@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ufcg.si1.model.Queixa;
+import com.ufcg.si1.model.queixa.Queixa;
 import com.ufcg.si1.service.PrefeituraService;
 import com.ufcg.si1.service.PrefeituraServiceImpl;
 import com.ufcg.si1.service.QueixaService;

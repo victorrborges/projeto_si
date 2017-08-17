@@ -1,7 +1,8 @@
 package com.ufcg.si1.service;
 
 import java.util.List;
-import com.ufcg.si1.model.Queixa;
+
+import com.ufcg.si1.model.queixa.Queixa;
 
 import exceptions.ObjetoInexistenteException;
 import exceptions.ObjetoJaExistenteException;

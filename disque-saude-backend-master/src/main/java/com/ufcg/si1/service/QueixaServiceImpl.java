@@ -1,10 +1,11 @@
 package com.ufcg.si1.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
-import com.ufcg.si1.model.Queixa;
-import com.ufcg.si1.model.SituacaoQueixa;
+import com.ufcg.si1.model.queixa.Aberta;
+import com.ufcg.si1.model.queixa.Queixa;
 import com.ufcg.si1.repository.QueixaRepository;
 
 import exceptions.ObjetoInexistenteException;
@@ -65,7 +66,7 @@ public class QueixaServiceImpl implements QueixaService {
 		int queixasTotais = this.findAllQueixas().size();
 		int queixasAbertas = 0;
 		for (Queixa queixa : this.findAllQueixas()) {
-			if (queixa.getSituacao().equals(SituacaoQueixa.ABERTA)) {
+			if (queixa.getSituacao() instanceof Aberta) {
 				queixasAbertas++;
 			}
 		}
