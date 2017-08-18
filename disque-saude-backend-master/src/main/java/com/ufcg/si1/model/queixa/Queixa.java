@@ -10,39 +10,40 @@ import exceptions.ObjetoInvalidoException;
 
 @Entity
 public class Queixa {
-	
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private String descricao;
 
 	private Long solicitanteId;
 
 	private String comentario = ""; // usado na atualizacao da queixa
-	
-	public QueixaState queixaState;
-	
-	public Queixa(){
+
+	private QueixaState queixaState;
+
+	@Enumerated(EnumType.STRING)
+	private SituacaoQueixa situacao;
+
+	public Queixa() {
 
 	}
-	
-	public Queixa(String descricao, int situacao,
-            Long solicitanteId) {
-	this.descricao = descricao;
-	this.queixaState = new Aberta();
-	this.comentario = "";
-	this.solicitanteId = solicitanteId;
-}
 
+	public Queixa(String descricao, SituacaoQueixa situacao, Long solicitanteId) {
+		this.descricao = descricao;
+		this.situacao = situacao;
+		this.queixaState = new Aberta();
+		this.comentario = "";
+		this.solicitanteId = solicitanteId;
+	}
 
-	public Queixa(String descricao, String comentario,
-                  Long solicitanteId) {
+	public Queixa(String descricao, String comentario, Long solicitanteId) {
 		this.descricao = descricao;
 		this.comentario = comentario;
 		this.solicitanteId = solicitanteId;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -74,21 +75,31 @@ public class Queixa {
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
-	
-	public QueixaState getSituacao() {
+
+	public QueixaState getState() {
 		return this.queixaState;
 	}
 
-//	public void setSituacao(SituacaoQueixa situacao) {
-//		this.situacao = situacao;
-//	}
-	
+	public SituacaoQueixa getSituacao() {
+		return this.situacao;
+	}
+
+	public void setSituacao(SituacaoQueixa situacao) {
+		this.situacao = situacao;
+	}
+
 	public void abrir() throws ObjetoInvalidoException {
 		this.queixaState.abrir();
+		if (this.situacao != SituacaoQueixa.EM_ANDAMENTO)
+			this.situacao = SituacaoQueixa.ABERTA;
 	}
 
 	public void fechar(String coment) throws ObjetoInvalidoException {
 		this.queixaState.fechar();
+		if (this.situacao == SituacaoQueixa.EM_ANDAMENTO || this.situacao == SituacaoQueixa.ABERTA) {
+				 			this.situacao = SituacaoQueixa.FECHADA;
+				 			this.comentario = coment;
+		}
 	}
 
 	@Override
