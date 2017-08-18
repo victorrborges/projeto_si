@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ufcg.si1.model.PostoSaude;
-import com.ufcg.si1.model.UnidadeSaude;
+import com.ufcg.si1.model.unidade.PostoSaude;
+import com.ufcg.si1.model.unidade.UnidadeSaude;
 import com.ufcg.si1.service.UnidadeSaudeService;
 import com.ufcg.si1.service.UnidadeSaudeServiceImpl;
 import com.ufcg.si1.util.CustomErrorType;

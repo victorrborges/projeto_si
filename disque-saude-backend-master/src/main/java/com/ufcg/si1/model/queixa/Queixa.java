@@ -21,10 +21,10 @@ public class Queixa {
 
 	private String comentario = ""; // usado na atualizacao da queixa
 
-	private QueixaState queixaState;
+	//private QueixaState queixaState;
 
 	@Enumerated(EnumType.STRING)
-	private SituacaoQueixa situacao;
+	private SituacaoQueixa situacaoQueixa;
 
 	public Queixa() {
 
@@ -32,8 +32,8 @@ public class Queixa {
 
 	public Queixa(String descricao, SituacaoQueixa situacao, Long solicitanteId) {
 		this.descricao = descricao;
-		this.situacao = situacao;
-		this.queixaState = new Aberta();
+		this.situacaoQueixa = situacao;
+		//this.queixaState = new Aberta();
 		this.comentario = "";
 		this.solicitanteId = solicitanteId;
 	}
@@ -76,28 +76,28 @@ public class Queixa {
 		this.comentario = comentario;
 	}
 
-	public QueixaState getState() {
-		return this.queixaState;
-	}
+//	public QueixaState getState() {
+//		return this.queixaState;
+//	}
 
 	public SituacaoQueixa getSituacao() {
-		return this.situacao;
+		return this.situacaoQueixa;
 	}
 
 	public void setSituacao(SituacaoQueixa situacao) {
-		this.situacao = situacao;
+		this.situacaoQueixa = situacao;
 	}
 
 	public void abrir() throws ObjetoInvalidoException {
-		this.queixaState.abrir();
-		if (this.situacao != SituacaoQueixa.EM_ANDAMENTO)
-			this.situacao = SituacaoQueixa.ABERTA;
+		//this.queixaState.abrir();
+		if (this.situacaoQueixa != SituacaoQueixa.EM_ANDAMENTO)
+			this.situacaoQueixa = SituacaoQueixa.ABERTA;
 	}
 
 	public void fechar(String coment) throws ObjetoInvalidoException {
-		this.queixaState.fechar();
-		if (this.situacao == SituacaoQueixa.EM_ANDAMENTO || this.situacao == SituacaoQueixa.ABERTA) {
-				 			this.situacao = SituacaoQueixa.FECHADA;
+		//this.queixaState.fechar();
+		if (this.situacaoQueixa == SituacaoQueixa.EM_ANDAMENTO || this.situacaoQueixa == SituacaoQueixa.ABERTA) {
+				 			this.situacaoQueixa = SituacaoQueixa.FECHADA;
 				 			this.comentario = coment;
 		}
 	}

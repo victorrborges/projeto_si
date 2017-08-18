@@ -6,7 +6,7 @@ import exceptions.Rep;
 
 import java.util.List;
 
-import com.ufcg.si1.model.UnidadeSaude;
+import com.ufcg.si1.model.unidade.UnidadeSaude;
 
 public interface UnidadeSaudeService {
     

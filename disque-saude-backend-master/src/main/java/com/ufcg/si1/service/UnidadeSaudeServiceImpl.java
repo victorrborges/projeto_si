@@ -1,6 +1,6 @@
 package com.ufcg.si1.service;
 
-import com.ufcg.si1.model.UnidadeSaude;
+import com.ufcg.si1.model.unidade.UnidadeSaude;
 import com.ufcg.si1.repository.UnidadeSaudeRepository;
 
 import exceptions.ObjetoInexistenteException;

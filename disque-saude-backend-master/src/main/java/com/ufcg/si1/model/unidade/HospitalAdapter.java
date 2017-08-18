@@ -1,6 +1,8 @@
-package com.ufcg.si1.model;
+package com.ufcg.si1.model.unidade;
 
 import java.util.List;
+
+import com.ufcg.si1.model.Especialidade;
 
 import br.edu.ufcg.Hospital;
 

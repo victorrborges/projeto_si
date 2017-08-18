@@ -1,6 +1,6 @@
 package com.ufcg.si1.model.prefeitura;
 
-public class Normal implements PrefeituraIF{
+public class Normal extends Prefeitura{
 
 	@Override
 	public int getEficiencia(double razao) {

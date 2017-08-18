@@ -1,9 +1,11 @@
-package com.ufcg.si1.model;
+package com.ufcg.si1.model.unidade;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -20,9 +22,13 @@ public class UnidadeSaude {
     private Long id;
 
     private String descricao;
+    
+    @Enumerated(EnumType.STRING)
+    private TipoUnidade tipoUnidade;
 
-    public UnidadeSaude(String descricao) {
+    public UnidadeSaude(String descricao, TipoUnidade tipoUnidade) {
         this.descricao = descricao;
+        this.tipoUnidade = tipoUnidade;
     }
     
     public UnidadeSaude() {
@@ -43,5 +49,13 @@ public class UnidadeSaude {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public TipoUnidade getTipoUnidade() {
+		return tipoUnidade;
+	}
+
+	public void setTipoUnidade(TipoUnidade tipoUnidade) {
+		this.tipoUnidade = tipoUnidade;
 	}
 }

@@ -4,21 +4,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ufcg.si1.model.prefeitura.Normal;
-import com.ufcg.si1.model.prefeitura.PrefeituraIF;
+import com.ufcg.si1.model.prefeitura.Prefeitura;
+import com.ufcg.si1.repository.PrefeituraRepository;
 
 @Service("prefeituraService")
 public class PrefeituraServiceImpl implements PrefeituraService{
-
+	
 	@Autowired
-	private PrefeituraIF prefeitura = new Normal();
+	PrefeituraRepository prefeituraRepository;
+	
+	private Prefeitura getPrefeitura() {
+		if (prefeituraRepository.findAll().isEmpty()) {
+			return prefeituraRepository.save(new Normal());
+		}
+		return this.getSingleton();
+	}
+	
+	private Prefeitura getSingleton() {
+		for(Prefeitura prefeitura : this.prefeituraRepository.findAll()) {
+			if (prefeitura instanceof Prefeitura) {
+				return prefeitura;
+			}
+		}
+		return null;
+	}
 
-	public void setPrefeitura(PrefeituraIF prefeitura) {
-		this.prefeitura = prefeitura;
+	public Prefeitura updatePrefeitura(Prefeitura prefeitura) {
+		Long id = this.getPrefeitura().getId();
+		prefeitura.setId(id);
+		return this.prefeituraRepository.save(prefeitura);
 	}
 
 	@Override
 	public int getEficiencia(double razao) {
-		return prefeitura.getEficiencia(razao);
+		return this.getPrefeitura().getEficiencia(razao);
 	}
 	
 }

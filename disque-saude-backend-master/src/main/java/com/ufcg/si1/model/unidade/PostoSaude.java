@@ -1,4 +1,4 @@
-package com.ufcg.si1.model;
+package com.ufcg.si1.model.unidade;
 
 
 public class PostoSaude extends UnidadeSaude{
@@ -7,7 +7,7 @@ public class PostoSaude extends UnidadeSaude{
     private float taxaDiariaAtendimentos;
 
     public PostoSaude(String descricao, int at, int taxa) {
-        super(descricao);
+        super(descricao, TipoUnidade.POSTO);
         this.atendentes = at;
         this.taxaDiariaAtendimentos = taxa;
     }
