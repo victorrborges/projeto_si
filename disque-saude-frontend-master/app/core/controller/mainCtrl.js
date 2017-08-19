@@ -1,6 +1,6 @@
 app.controller("registerComplaintCtrl", function ($scope, $http, toastr, $location) {
 
-    $scope.registerComplaint = function (complaint) {
+    $scope.registerComplaint = function (complaint, solicitante) {
 	console.log(complaint);
         $http.post("http://localhost:5000/SpringBootRestApi/api/queixa/", JSON.stringify(complaint))
             .then(function success(response) {
@@ -84,7 +84,7 @@ app.controller("generalSituationComplaintsCtrl", function ($scope, $http) {
                         status: "BOM",
                         color: "label-success"
                     };
-                    
+
                 }
             }, function failed(error) {
                 console.log("Erro na busca de unidades");
@@ -102,4 +102,19 @@ app.controller("messageCreatedComplaintCtrl", function ($scope, $routeParams) {
     }
 
     showMessage();
+});
+
+app.controller("loginCtrl", function ($scope, $http, toastr, $location) {
+//TODO:Implementar
+  //   $scope.registerComplaint = function (complaint, solicitante) {
+	// console.log(complaint);
+  //       $http.post("http://localhost:5000/SpringBootRestApi/api/queixa/", JSON.stringify(complaint))
+  //           .then(function success(response) {
+  //               toastr.success("Queixa adicionada com sucesso!");
+  //               $location.path('/createdcomplaint/' + response.data.id);
+  //           }, function error(error) {
+  //               console.log(error);
+  //               console.log("Problemas ao tentar adicionar queixa.");
+  //           });
+  //   }
 });

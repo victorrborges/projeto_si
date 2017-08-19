@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.ufcg.si1.model.Pessoa;
 import com.ufcg.si1.model.queixa.Queixa;
 import com.ufcg.si1.service.PrefeituraService;
 import com.ufcg.si1.service.PrefeituraServiceImpl;
@@ -58,15 +59,18 @@ public class QueixaController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/", method = RequestMethod.POST)
 	public ResponseEntity<?> abrirQueixa(@RequestBody Queixa queixa, UriComponentsBuilder ucBuilder) {
+		System.out.println("================>");
+		System.out.println(queixa == null);
+		System.out.println(queixa.getNomeSolicitante());
+		System.out.println("2");
+//		try {
+//			queixaService.save(queixa);
+//		} catch (ObjetoJaExistenteException e) {
+//			return new ResponseEntity(new CustomErrorType("Esta queixa já existe"),
+//					HttpStatus.CONFLICT);
+//		}
 
-		try {
-			queixaService.save(queixa);
-		} catch (ObjetoJaExistenteException e) {
-			return new ResponseEntity(new CustomErrorType("Esta queixa já existe" + queixa.getDescricao()),
-					HttpStatus.CONFLICT);
-		}
-
-		return new ResponseEntity<Queixa>(queixa, HttpStatus.CREATED);
+		return new ResponseEntity<Object>(queixa, HttpStatus.CREATED);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
