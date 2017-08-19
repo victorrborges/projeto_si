@@ -36,15 +36,16 @@ public class AdminController {
 	 }
 	 
 	 @RequestMapping(value = "/admin/login/", method = RequestMethod.GET)
-	 public ResponseEntity<Administrador> logar(@RequestBody Administrador administrador) {
-		 try {
-			 Administrador administradorLogado = this.adminService.logar(administrador);
-			 return new ResponseEntity<Administrador>(administradorLogado, HttpStatus.OK);
-		 } catch (ObjetoInexistenteException e) {
-			 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		 } catch (ObjetoInvalidoException e) {
-			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		 }
+	 public void logar() {
+		 System.out.println("=========>");
+//		 try {
+//			 Administrador administradorLogado = this.adminService.logar(administrador);
+//			 return new ResponseEntity<Administrador>(administradorLogado, HttpStatus.OK);
+//		 } catch (ObjetoInexistenteException e) {
+//			 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		 } catch (ObjetoInvalidoException e) {
+//			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//		 }
 	 }
 
 }

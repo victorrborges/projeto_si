@@ -19,7 +19,7 @@ public class Queixa {
 
 	private String descricao;
 
-	private Pessoa solicitante;
+	private Long solicitanteId;
 
 	private String comentario = ""; // usado na atualizacao da queixa
 
@@ -32,63 +32,24 @@ public class Queixa {
 
 	}
 
-	public Queixa(String descricao, SituacaoQueixa situacao, Pessoa solicitanteId) {
+	public Queixa(String descricao, SituacaoQueixa situacao, Long solicitanteId) {
 		this.descricao = descricao;
 		this.situacaoQueixa = situacao;
 		//this.queixaState = new Aberta();
 		this.comentario = "";
-		this.solicitante = solicitante;
+		this.solicitanteId = solicitanteId;
 	}
 
-	public Queixa(String descricao, String comentario, Pessoa solicitante) {
+	public Queixa(String descricao, String comentario, Long solicitanteId) {
 		this.descricao = descricao;
 		this.comentario = comentario;
-		this.solicitante = solicitante;
+		this.solicitanteId = solicitanteId;
 	}
 
 	public Long getId() {
 		return id;
 	}
 	
-	public String getNomeSolicitante() {
-		return this.solicitante.getNome();
-	}
-	
-	public void setNomeSolicitante(String nome) {
-		this.solicitante.setNome(nome);
-	}
-	
-	public String getEmailSolicitante() {
-		return this.solicitante.getEmail();
-	}
-	
-	public void setEmailSolicitante(String email) {
-		this.solicitante.setEmail(email);
-	}
-	
-	public String getCidadeSolicitante() {
-		return this.solicitante.getEndereco().getCidade();
-	}
-	
-	public void setCidadeSolicitante(String cidade) {
-		this.solicitante.getEndereco().setCidade(cidade);
-	}
-	
-	public String getRuaSolicitante() {
-		return this.solicitante.getEndereco().getRua();
-	}
-	
-	public void setRuaSolicitante(String rua) {
-		this.solicitante.getEndereco().setRua(rua);
-	}
-	
-	public String getUfSolicitante() {
-		return this.solicitante.getEndereco().getUf();
-	}
-	
-	public void setUfSolicitante(String uf) {
-		this.solicitante.getEndereco().setUf(uf);
-	}
 	
 	public void setId(Long id) {
 		this.id = id;
@@ -108,6 +69,14 @@ public class Queixa {
 
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
+	}
+	
+	public Long getSolicitanteId() {
+		return this.solicitanteId;
+	}
+	
+	public void setSolicitanteId(Long solicitanteId) {
+		this.solicitanteId = solicitanteId;
 	}
 
 //	public QueixaState getState() {

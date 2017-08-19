@@ -59,16 +59,12 @@ public class QueixaController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/", method = RequestMethod.POST)
 	public ResponseEntity<?> abrirQueixa(@RequestBody Queixa queixa, UriComponentsBuilder ucBuilder) {
-		System.out.println("================>");
-		System.out.println(queixa == null);
-		System.out.println(queixa.getNomeSolicitante());
-		System.out.println("2");
-//		try {
-//			queixaService.save(queixa);
-//		} catch (ObjetoJaExistenteException e) {
-//			return new ResponseEntity(new CustomErrorType("Esta queixa já existe"),
-//					HttpStatus.CONFLICT);
-//		}
+		try {
+			queixaService.save(queixa);
+		} catch (ObjetoJaExistenteException e) {
+			return new ResponseEntity(new CustomErrorType("Esta queixa já existe"),
+					HttpStatus.CONFLICT);
+		}
 
 		return new ResponseEntity<Object>(queixa, HttpStatus.CREATED);
 	}
