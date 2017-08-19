@@ -19,9 +19,9 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public Administrador cadastrar(Administrador administrador)
 			throws ObjetoJaExistenteException {
-		if (this.existe(administrador)) {
-			throw new ObjetoJaExistenteException("Administrador ja cadastrado");
-		}
+//		if (this.existe(administrador)) {
+//			throw new ObjetoJaExistenteException("Administrador ja cadastrado");
+//		}
 		return this.adminRepository.save(administrador);
 	}
 	
@@ -30,7 +30,7 @@ public class AdminServiceImpl implements AdminService {
 			return true;
 		}
 		for (Administrador administradorBd : this.adminRepository.findAll()) {
-			if (administrador.getEmail().equals(administradorBd.getEmail())) {
+			if (administrador.getLogin().equals(administradorBd.getLogin())) {
 				return true;
 			}
 		}
@@ -39,12 +39,12 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Administrador logar(Administrador administrador) throws ObjetoInvalidoException, ObjetoInexistenteException {
-		return this.logar(administrador.getEmail(), administrador.getSenha());
+		return this.logar(administrador.getLogin(), administrador.getSenha());
 	}
 
-	private Administrador logar(String email, String senha) throws ObjetoInvalidoException, ObjetoInexistenteException {
+	private Administrador logar(String login, String senha) throws ObjetoInvalidoException, ObjetoInexistenteException {
 		for (Administrador administrador : this.adminRepository.findAll()) {
-			if (administrador.getEmail().equals(email)) {
+			if (administrador.getLogin().equals(login)) {
 				if (administrador.getSenha().equals(senha)) {
 					return administrador;
 				} else {

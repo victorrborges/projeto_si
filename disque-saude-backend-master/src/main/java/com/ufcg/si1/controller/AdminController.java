@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.si1.model.Administrador;
 import com.ufcg.si1.service.AdminService;
@@ -35,17 +36,17 @@ public class AdminController {
 		 }
 	 }
 	 
-	 @RequestMapping(value = "/admin/login/", method = RequestMethod.GET)
-	 public void logar() {
-		 System.out.println("=========>");
-//		 try {
-//			 Administrador administradorLogado = this.adminService.logar(administrador);
-//			 return new ResponseEntity<Administrador>(administradorLogado, HttpStatus.OK);
-//		 } catch (ObjetoInexistenteException e) {
-//			 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		 } catch (ObjetoInvalidoException e) {
-//			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//		 }
+	 @RequestMapping(value = "/admin/login/", method = RequestMethod.POST)
+	 public ResponseEntity<Administrador> logar(@RequestBody Administrador admin, UriComponentsBuilder ucBuilder) {
+		 System.out.println(admin.getLogin());
+		 try {
+			 Administrador administradorLogado = this.adminService.logar(admin);
+			 return new ResponseEntity<Administrador>(administradorLogado, HttpStatus.OK);
+		 } catch (ObjetoInexistenteException e) {
+			 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		 } catch (ObjetoInvalidoException e) {
+			 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		 }
 	 }
 
 }

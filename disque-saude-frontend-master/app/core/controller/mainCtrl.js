@@ -1,3 +1,5 @@
+var adminLogado = false;
+
 app.controller("registerComplaintCtrl", function ($scope, $http, toastr, $location) {
 
     $scope.registerComplaint = function (complaint) {
@@ -105,16 +107,19 @@ app.controller("messageCreatedComplaintCtrl", function ($scope, $routeParams) {
 });
 
 app.controller("loginCtrl", function ($scope, $http, toastr, $location) {
-    var data = {"login": login, "senha": senha};
-    $scope.doLogin = function (comp) {
-    console.log(complaint);
-     $http.post("http://localhost:5000/SpringBootRestApi/api/admin/login/", data)
-         .then(function success(response) {
-             toastr.success("Queixa adicionada com sucesso!");
 
+
+  $scope.doLogin = function (admin) {
+  console.log(JSON.stringify(admin));
+   $http.post("http://localhost:5000/SpringBootRestApi/api/admin/login/", JSON.stringify(admin))
+       .then(function success(response) {
+         console.log(adminLogado);
+          adminLogado = true;
+          console.log(adminLogado);
+           toastr.success("Admin logado com sucesso!");
          }, function error(error) {
-             console.log(error);
-             console.log("Problemas ao tentar adicionar queixa.");
-         });
-  }
+           console.log(error);
+           console.log("Nao foi possivel se autenticar.");
+       });
+    }
 });
