@@ -25,17 +25,17 @@ public class AdminServiceImpl implements AdminService {
 		return this.adminRepository.save(administrador);
 	}
 	
-	private boolean existe(Administrador administrador) {
-		if (adminRepository.exists(administrador.getId())) {
-			return true;
-		}
-		for (Administrador administradorBd : this.adminRepository.findAll()) {
-			if (administrador.getLogin().equals(administradorBd.getLogin())) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	private boolean existe(Administrador administrador) {
+//		if (adminRepository.exists(administrador.getId())) {
+//			return true;
+//		}
+//		for (Administrador administradorBd : this.adminRepository.findAll()) {
+//			if (administrador.getLogin().equals(administradorBd.getLogin())) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	@Override
 	public Administrador logar(Administrador administrador) throws ObjetoInvalidoException, ObjetoInexistenteException {

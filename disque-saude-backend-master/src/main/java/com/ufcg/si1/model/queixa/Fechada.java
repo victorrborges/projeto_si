@@ -2,7 +2,7 @@ package com.ufcg.si1.model.queixa;
 
 import exceptions.ObjetoInvalidoException;
 
-public class Fechada implements QueixaState {
+public class Fechada extends QueixaState {
 
 	@Override
 	public QueixaState abrir() throws ObjetoInvalidoException {

@@ -6,6 +6,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Normal.class, name = "normal"),
+        @JsonSubTypes.Type(value = Extra.class, name = "extra"),
+        @JsonSubTypes.Type(value = Caos.class, name = "caos")
+})
+
 @Entity
 public abstract class Prefeitura {
 	

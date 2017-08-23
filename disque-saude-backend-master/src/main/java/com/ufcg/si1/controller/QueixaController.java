@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ufcg.si1.model.Pessoa;
 import com.ufcg.si1.model.queixa.Queixa;
 import com.ufcg.si1.service.PrefeituraService;
 import com.ufcg.si1.service.PrefeituraServiceImpl;
@@ -23,7 +22,6 @@ import com.ufcg.si1.util.CustomErrorType;
 import com.ufcg.si1.util.ObjWrapper;
 
 import exceptions.ObjetoInexistenteException;
-import exceptions.ObjetoInvalidoException;
 import exceptions.ObjetoJaExistenteException;
 
 @RestController
@@ -121,12 +119,6 @@ public class QueixaController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/fechamento", method = RequestMethod.POST)
 	public ResponseEntity<?> fecharQueixa(@RequestBody Queixa queixaAFechar) {
-		try {
-			queixaAFechar.fechar("fechar");
-		} catch (ObjetoInvalidoException e) {
-			return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.BAD_REQUEST);
-		}
-
 		try {
 			this.queixaService.updateQueixa(queixaAFechar);
 			return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.OK);

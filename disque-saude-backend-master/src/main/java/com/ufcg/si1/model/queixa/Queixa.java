@@ -1,14 +1,19 @@
 package com.ufcg.si1.model.queixa;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.ufcg.si1.model.Pessoa;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import exceptions.ObjetoInvalidoException;
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = QueixaAnimal.class, name = "queixa_animal")
+})
 
 @Entity
 public class Queixa {
@@ -21,29 +26,32 @@ public class Queixa {
 
 	private Long solicitanteId;
 
-	private String comentario = ""; // usado na atualizacao da queixa
-
-	//private QueixaState queixaState;
-
+	private String comentario = "";
+	
 	@Enumerated(EnumType.STRING)
 	private SituacaoQueixa situacaoQueixa;
+	
+	@Embedded
+	private QueixaState queixaState;
 
 	public Queixa() {
 
 	}
-
-	public Queixa(String descricao, SituacaoQueixa situacao, Long solicitanteId) {
+	
+	public Queixa(String descricao, Long solicitanteId) {
 		this.descricao = descricao;
-		this.situacaoQueixa = situacao;
-		//this.queixaState = new Aberta();
 		this.comentario = "";
 		this.solicitanteId = solicitanteId;
+		this.situacaoQueixa = SituacaoQueixa.ABERTA;
+		this.queixaState = new Aberta();
 	}
 
 	public Queixa(String descricao, String comentario, Long solicitanteId) {
 		this.descricao = descricao;
 		this.comentario = comentario;
 		this.solicitanteId = solicitanteId;
+		this.situacaoQueixa = SituacaoQueixa.FECHADA;
+		this.queixaState = new Fechada();
 	}
 
 	public Long getId() {
@@ -79,10 +87,6 @@ public class Queixa {
 		this.solicitanteId = solicitanteId;
 	}
 
-//	public QueixaState getState() {
-//		return this.queixaState;
-//	}
-
 	public SituacaoQueixa getSituacao() {
 		return this.situacaoQueixa;
 	}
@@ -91,19 +95,19 @@ public class Queixa {
 		this.situacaoQueixa = situacao;
 	}
 
-	public void abrir() throws ObjetoInvalidoException {
-		//this.queixaState.abrir();
-		if (this.situacaoQueixa != SituacaoQueixa.EM_ANDAMENTO)
-			this.situacaoQueixa = SituacaoQueixa.ABERTA;
-	}
+//	public void abrir() throws ObjetoInvalidoException {
+//		//this.queixaState.abrir();
+//		if (this.situacaoQueixa != SituacaoQueixa.EM_ANDAMENTO)
+//			this.situacaoQueixa = SituacaoQueixa.ABERTA;
+//	}
 
-	public void fechar(String coment) throws ObjetoInvalidoException {
-		//this.queixaState.fechar();
-		if (this.situacaoQueixa == SituacaoQueixa.EM_ANDAMENTO || this.situacaoQueixa == SituacaoQueixa.ABERTA) {
-				 			this.situacaoQueixa = SituacaoQueixa.FECHADA;
-				 			this.comentario = coment;
-		}
-	}
+//	public void fechar(String coment) throws ObjetoInvalidoException {
+//		//this.queixaState.fechar();
+//		if (this.situacaoQueixa == SituacaoQueixa.EM_ANDAMENTO || this.situacaoQueixa == SituacaoQueixa.ABERTA) {
+//				 			this.situacaoQueixa = SituacaoQueixa.FECHADA;
+//				 			this.comentario = coment;
+//		}
+//	}
 
 	@Override
 	public int hashCode() {

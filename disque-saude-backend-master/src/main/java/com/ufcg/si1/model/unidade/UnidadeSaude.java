@@ -11,7 +11,8 @@ import javax.persistence.Id;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = PostoSaude.class, name = "posto")
+        @JsonSubTypes.Type(value = PostoSaude.class, name = "posto"),
+        @JsonSubTypes.Type(value = HospitalAdapter.class, name = "hospital")
 })
 
 @Entity
