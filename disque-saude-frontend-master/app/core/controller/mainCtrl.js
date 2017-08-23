@@ -1,3 +1,18 @@
+app.controller("searchAverangeCtrl", function ($scope, $http) {
+
+    $scope.average = null;
+
+    $scope.searchAveragePerPatient = function (id) {
+        $http.get("http://localhost:5000/SpringBootRestApi/api/geral/medicos/" + id).then(function successCallback(response) {
+            $scope.average = response.data.obj;
+        }, function errorCallback(error) {
+            console.log("Unidade Não Encontrada");
+        });
+    }
+});
+
+
+
 app.controller("registerComplaintCtrl", function ($scope, $http, toastr, $location) {
 
     $scope.registerComplaint = function (complaint) {
@@ -59,9 +74,11 @@ app.controller("searchHealthUnitCtrl", function ($scope, $http) {
 
 app.controller("generalSituationComplaintsCtrl", function ($scope, $http) {
 
+    console.log("======>")
     $scope.situation = "";
 
     var getGeneralSituationComplaints = function (neighborhood) {
+      console.log("==========>2")
         $http.get("http://localhost:5000/SpringBootRestApi/api/geral/situacao")
             .then(function success(response) {
                 console.log(response.data.obj);
@@ -104,18 +121,24 @@ app.controller("messageCreatedComplaintCtrl", function ($scope, $routeParams) {
     showMessage();
 });
 
-app.controller("loginCtrl", function ($scope, $http, toastr) {
+app.controller("loginCtrl", function ($scope, $http, toastr, $rootScope) {
 
-$scope.showLogin = false;
 
   $scope.doLogin = function (admin) {
   console.log(JSON.stringify(admin));
    $http.post("http://localhost:5000/SpringBootRestApi/api/admin/login/", JSON.stringify(admin))
        .then(function success(response) {
+
            toastr.success("Admin logado com sucesso!");
+           $rootScope.permissaoAdmin = true;
          }, function error(error) {
            console.log(error);
            console.log("Nao foi possivel se autenticar.");
        });
     }
+
+    $scope.doLogout = function () {
+             $rootScope.permissaoAdmin = false;
+      }
+
 });
