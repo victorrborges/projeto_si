@@ -121,24 +121,21 @@ app.controller("messageCreatedComplaintCtrl", function ($scope, $routeParams) {
     showMessage();
 });
 
-app.controller("loginCtrl", function ($scope, $http, toastr, $rootScope) {
+app.controller("loginCtrl", function ($scope, $http, toastr, $rootScope, $location) {
 
 
   $scope.doLogin = function (admin) {
-  console.log(JSON.stringify(admin));
-   $http.post("http://localhost:5000/SpringBootRestApi/api/admin/login/", JSON.stringify(admin))
-       .then(function success(response) {
-
-           toastr.success("Admin logado com sucesso!");
-           $rootScope.permissaoAdmin = true;
+    console.log(JSON.stringify(admin));
+    $http.post("http://localhost:5000/SpringBootRestApi/api/admin/login/", JSON.stringify(admin))
+        .then(function success(response) {
+          $location.path('/');
+          toastr.success("Admin logado com sucesso!");
+          $rootScope.permissaoAdmin = true;
          }, function error(error) {
            console.log(error);
            console.log("Nao foi possivel se autenticar.");
        });
     }
 
-    $scope.doLogout = function () {
-             $rootScope.permissaoAdmin = false;
-      }
 
 });
