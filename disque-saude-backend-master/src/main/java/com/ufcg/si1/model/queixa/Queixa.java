@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.ufcg.si1.model.Endereco;
 import com.ufcg.si1.model.Pessoa;
 
 //@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
@@ -25,6 +26,9 @@ public class Queixa {
 	
 	@Embedded
 	private Pessoa solicitante;
+	
+	@Embedded
+	private Endereco endereco;
 
 	private String comentario;
 	
@@ -81,6 +85,14 @@ public class Queixa {
 	
 	public SituacaoQueixa getSituacao() {
 		return this.situacaoQueixa;
+	}
+	
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+	
+	public Endereco getEndereco() {
+		return this.endereco;
 	}
 		
 
