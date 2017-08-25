@@ -16,7 +16,8 @@ app.controller("searchAverangeCtrl", function ($scope, $http) {
 app.controller("registerComplaintCtrl", function ($scope, $http, toastr, $location) {
 
     $scope.registerComplaint = function (complaint) {
-	console.log(complaint);
+      complaint.situacao = "aberta";
+	     console.log(complaint);
         $http.post("http://localhost:5000/SpringBootRestApi/api/queixa/", JSON.stringify(complaint))
             .then(function success(response) {
                 toastr.success("Queixa adicionada com sucesso!");
@@ -47,6 +48,7 @@ app.controller("searchComplaintCtrl", function ($scope, $http) {
     $scope.searchComplaint = function (id) {
         $http.get("http://localhost:5000/SpringBootRestApi/api/queixa/" + id).then(function successCallback(response) {
             $scope.complaint = response.data;
+            console.log($scope.complaint);
         }, function errorCallback(error) {
             $scope.complaint = null;
             console.log(error);
@@ -138,4 +140,30 @@ app.controller("loginCtrl", function ($scope, $http, toastr, $rootScope, $locati
     }
 
 
+});
+
+app.controller("changeComplaintStatusCtrl", function ($scope, $http) {
+    $scope.complaint;
+
+    $scope.searchComplaint = function (id) {
+        $http.get("http://localhost:5000/SpringBootRestApi/api/queixa/" + id).then(function successCallback(response) {
+            $scope.complaint = response.data;
+            console.log($scope.complaint);
+        }, function errorCallback(error) {
+            $scope.complaint = null;
+            console.log(error);
+        });
+    }
+
+
+    $scope.updateComplaint = function (complaint) {
+      complaint.situacao = "fechada"
+        $http.put("http://localhost:5000/SpringBootRestApi/api/queixa/" + complaint.id, JSON.stringify(complaint)).then(function successCallback(response) {
+            complaint = response.data;
+            console.log(complaint);
+        }, function errorCallback(error) {
+            $scope.complaint = null;
+            console.log(error);
+        });
+    }
 });

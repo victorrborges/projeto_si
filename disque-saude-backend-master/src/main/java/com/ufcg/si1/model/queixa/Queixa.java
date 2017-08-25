@@ -36,7 +36,7 @@ public class Queixa {
 	private SituacaoQueixa situacaoQueixa;
 	
 	public Queixa() {
-		situacaoQueixa = SituacaoQueixa.ABERTA;
+
 	}
 	
 	public Queixa(String descricao, Pessoa solicitante) {
