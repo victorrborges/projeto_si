@@ -5,12 +5,12 @@ public class QueixaAnimal extends Queixa {
 	private String tipoAnimal;
 	
 	public QueixaAnimal(String descricao, Long solicitanteId, String tipoAnimal) {
-		super(descricao, solicitanteId);
+//		super(descricao, solicitanteId);
 		this.setTipoAnimal(tipoAnimal);
 	}
 	
 	public QueixaAnimal(String descricao, String comentario, Long solicitanteId, String tipoAnimal) {
-		super(descricao, comentario, solicitanteId);
+//		super(descricao, comentario, solicitanteId);
 		this.setTipoAnimal(tipoAnimal);
 	}
 

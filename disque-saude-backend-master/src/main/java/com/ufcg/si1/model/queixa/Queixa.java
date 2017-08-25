@@ -2,18 +2,15 @@ package com.ufcg.si1.model.queixa;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.ufcg.si1.model.Pessoa;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({
-	@JsonSubTypes.Type(value = QueixaAnimal.class, name = "queixa_animal")
-})
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+//@JsonSubTypes({
+//	@JsonSubTypes.Type(value = QueixaAnimal.class, name = "queixa_animal")
+//})
 
 @Entity
 public class Queixa {
@@ -23,35 +20,29 @@ public class Queixa {
 	private Long id;
 
 	private String descricao;
-
-	private Long solicitanteId;
+	
+	@Embedded
+	private Pessoa solicitante;
 
 	private String comentario = "";
 	
-	@Enumerated(EnumType.STRING)
-	private SituacaoQueixa situacaoQueixa;
+//	@Enumerated(EnumType.STRING)
+	//private SituacaoQueixa situacaoQueixa;
 	
-	@Embedded
-	private QueixaState queixaState;
-
 	public Queixa() {
 
 	}
 	
-	public Queixa(String descricao, Long solicitanteId) {
+	public Queixa(String descricao, Pessoa solicitante) {
 		this.descricao = descricao;
 		this.comentario = "";
-		this.solicitanteId = solicitanteId;
-		this.situacaoQueixa = SituacaoQueixa.ABERTA;
-		this.queixaState = new Aberta();
+		this.solicitante = solicitante;
 	}
 
-	public Queixa(String descricao, String comentario, Long solicitanteId) {
+	public Queixa(String descricao, String comentario, Pessoa solicitante) {
 		this.descricao = descricao;
 		this.comentario = comentario;
-		this.solicitanteId = solicitanteId;
-		this.situacaoQueixa = SituacaoQueixa.FECHADA;
-		this.queixaState = new Fechada();
+		this.solicitante = solicitante;
 	}
 
 	public Long getId() {
@@ -79,35 +70,54 @@ public class Queixa {
 		this.comentario = comentario;
 	}
 	
-	public Long getSolicitanteId() {
-		return this.solicitanteId;
+	public Pessoa getSolicitante() {
+		return this.solicitante;
 	}
 	
-	public void setSolicitanteId(Long solicitanteId) {
-		this.solicitanteId = solicitanteId;
+	public void setSolicitanteId(Pessoa solicitante) {
+		this.solicitante = solicitante;
 	}
-
-	public SituacaoQueixa getSituacao() {
-		return this.situacaoQueixa;
-	}
-
-	public void setSituacao(SituacaoQueixa situacao) {
-		this.situacaoQueixa = situacao;
-	}
-
-//	public void abrir() throws ObjetoInvalidoException {
-//		//this.queixaState.abrir();
-//		if (this.situacaoQueixa != SituacaoQueixa.EM_ANDAMENTO)
-//			this.situacaoQueixa = SituacaoQueixa.ABERTA;
+	
+//	public void setNome(String nome) {
+//		this.solicitante.setNome(nome);
 //	}
-
-//	public void fechar(String coment) throws ObjetoInvalidoException {
-//		//this.queixaState.fechar();
-//		if (this.situacaoQueixa == SituacaoQueixa.EM_ANDAMENTO || this.situacaoQueixa == SituacaoQueixa.ABERTA) {
-//				 			this.situacaoQueixa = SituacaoQueixa.FECHADA;
-//				 			this.comentario = coment;
-//		}
+//	
+//	public String getNome() {
+//		return this.solicitante.getNome();
 //	}
+//	
+//	public void setEmail(String email) {
+//		this.solicitante.setEmail(email);
+//	}
+//	
+//	public String getEmail() {
+//		return this.solicitante.getEmail();
+//	}
+//	
+//	public void setRua(String rua) {
+//		this.solicitante.getEndereco().setRua(rua);
+//	}
+//	
+//	public String getRua() {
+//		return this.solicitante.getEndereco().getRua();
+//	}
+//	
+//	public void setCidade(String cidade) {
+//		this.solicitante.getEndereco().setCidade(cidade);
+//	}
+//	
+//	public String getCidade() {
+//		return this.solicitante.getEndereco().getCidade();
+//	}
+//	
+//	public void setUf(String uf) {
+//		this.solicitante.getEndereco().setUf(uf);
+//	}
+//	
+//	public String getUf() {
+//		return this.solicitante.getEndereco().getUf();
+//	}
+	
 
 	@Override
 	public int hashCode() {
