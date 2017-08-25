@@ -2,6 +2,8 @@ package com.ufcg.si1.model.queixa;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -24,13 +26,13 @@ public class Queixa {
 	@Embedded
 	private Pessoa solicitante;
 
-	private String comentario = "";
+	private String comentario;
 	
-//	@Enumerated(EnumType.STRING)
-	//private SituacaoQueixa situacaoQueixa;
+	@Enumerated(EnumType.STRING)
+	private SituacaoQueixa situacaoQueixa;
 	
 	public Queixa() {
-
+		situacaoQueixa = SituacaoQueixa.ABERTA;
 	}
 	
 	public Queixa(String descricao, Pessoa solicitante) {
@@ -48,7 +50,6 @@ public class Queixa {
 	public Long getId() {
 		return id;
 	}
-	
 	
 	public void setId(Long id) {
 		this.id = id;
@@ -74,50 +75,14 @@ public class Queixa {
 		return this.solicitante;
 	}
 	
-	public void setSolicitanteId(Pessoa solicitante) {
-		this.solicitante = solicitante;
+	public void setSituacao(SituacaoQueixa situacao) {
+		this.situacaoQueixa = situacao;
+	}	
+	
+	public SituacaoQueixa getSituacao() {
+		return this.situacaoQueixa;
 	}
-	
-//	public void setNome(String nome) {
-//		this.solicitante.setNome(nome);
-//	}
-//	
-//	public String getNome() {
-//		return this.solicitante.getNome();
-//	}
-//	
-//	public void setEmail(String email) {
-//		this.solicitante.setEmail(email);
-//	}
-//	
-//	public String getEmail() {
-//		return this.solicitante.getEmail();
-//	}
-//	
-//	public void setRua(String rua) {
-//		this.solicitante.getEndereco().setRua(rua);
-//	}
-//	
-//	public String getRua() {
-//		return this.solicitante.getEndereco().getRua();
-//	}
-//	
-//	public void setCidade(String cidade) {
-//		this.solicitante.getEndereco().setCidade(cidade);
-//	}
-//	
-//	public String getCidade() {
-//		return this.solicitante.getEndereco().getCidade();
-//	}
-//	
-//	public void setUf(String uf) {
-//		this.solicitante.getEndereco().setUf(uf);
-//	}
-//	
-//	public String getUf() {
-//		return this.solicitante.getEndereco().getUf();
-//	}
-	
+		
 
 	@Override
 	public int hashCode() {
