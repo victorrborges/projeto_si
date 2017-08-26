@@ -55,5 +55,20 @@ public class EspecialidadeServiceImpl implements EspecialidadeService {
     	return especialidadesDaUnidade;
     }
 
+	public List<Long> getUnidadesPorEspecialidade(String descricao) throws ObjetoInexistenteException {
+		List<Long> unidades = new ArrayList<Long>();
+		for(Especialidade especialidade : this.findAllEspecialidades()) {
+			if(especialidade.getDescricao().equals(descricao)) {
+				unidades.add(especialidade.getUnidadeSaudeId());
+			}
+		}
+		
+		if(unidades.isEmpty()) {
+			throw new ObjetoInexistenteException("Nenhuma unidade com essa especialidade");
+		}
+		
+		return unidades;
+	}
+
 
 }

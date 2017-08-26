@@ -18,4 +18,7 @@ public interface EspecialidadeService {
     public void save(Especialidade esp) throws ObjetoJaExistenteException;
     
     public List<Especialidade> getEspecialidadesDaUnidade(Long unidadeSaudeId);
+    
+    public List<Long> getUnidadesPorEspecialidade(String descricao) throws ObjetoInexistenteException;
+    
 }
