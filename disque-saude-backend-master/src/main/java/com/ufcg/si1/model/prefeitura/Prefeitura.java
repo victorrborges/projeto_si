@@ -52,6 +52,14 @@ public class Prefeitura {
 		throw new Exception("Situacao da prefeitura invalida");
 	}
 	
+	public void setSituacao(String situacao) throws Exception {
+		acoes = this.alteraSituacao(situacao);
+	}
+	
+	public AcoesPrefeitura getSituacao() {
+		return this.acoes;
+	}
+	
 	public static Prefeitura getInstancia() {
 		if (instancia == null) {
 			try {

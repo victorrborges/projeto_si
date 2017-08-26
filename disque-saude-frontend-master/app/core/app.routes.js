@@ -22,9 +22,12 @@ app.config(function ($routeProvider) {
     }).when("/login", {
         templateUrl : "view/include/login.html",
         controller : "loginCtrl"
-      }).when("/change_complaint_status", {
-          templateUrl : "view/include/change_complaint_status.html",
-          controller : "changeComplaintStatusCtrl"
+    }).when("/change_complaint_status", {
+        templateUrl : "view/include/change_complaint_status.html",
+        controller : "changeComplaintStatusCtrl"
+    }).when("/change_townhall_status", {
+        templateUrl : "view/include/change_townhall_status.html",
+        controller : "changeTownhallStatusCtrl"
     }).otherwise({
         redirectTo: '/'
     });

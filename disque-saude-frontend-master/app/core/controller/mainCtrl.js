@@ -165,3 +165,15 @@ app.controller("changeComplaintStatusCtrl", function ($scope, $http, toastr) {
         });
     }
 });
+
+app.controller("changeTownhallStatusCtrl", function ($scope, $http, toastr) {
+  $scope.setTownhallStatus = function (status) {
+    console.log(status);
+    $http.post("http://localhost:5000/SpringBootRestApi/api/prefeitura/" + status).then(function successCallback(response) {
+      toastr.success("Situação da prefeitura atualizada com sucesso!");
+    }, function errorCallback(error) {
+        console.log(error);
+    });
+  }
+
+});

@@ -1,0 +1,21 @@
+
+<div class="container">
+    <div class="jumbotron">
+        <form class="form-horizontal">
+          <div class="form-group">
+                <label class="col-sm-2 col-form-label">Selecione a situação da prefeitura:</label>
+                <input type="radio" name="situacao" ng-model="status" value="normal"> Normal<br>
+                <input type="radio" name="situacao" ng-model="status" value="extra"> Extra<br>
+                <input type="radio" name="situacao" ng-model="status" value="caos"> Caos<br>
+          </div>
+
+            <div class="form-group">
+                <div class="col-lg-2 col-lg-offset-5 col-md-3 col-md-offset-5 col-sm-3 col-sm-offset-5 col-xs-3 col-xs-offset-5">
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="setTownhallStatus(status)">
+                        <i class="fa fa-search"></i> Atualizar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

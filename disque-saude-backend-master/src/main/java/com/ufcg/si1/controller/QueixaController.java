@@ -115,18 +115,6 @@ public class QueixaController {
 
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/queixa/fechamento", method = RequestMethod.POST)
-	public ResponseEntity<?> fecharQueixa(@RequestBody Queixa queixaAFechar) {
-		try {
-			this.queixaService.updateQueixa(queixaAFechar);
-			return new ResponseEntity<Queixa>(queixaAFechar, HttpStatus.OK);
-		} catch (ObjetoInexistenteException e) {
-			return new ResponseEntity(
-					new CustomErrorType("Unable to close. Queixa with id " + queixaAFechar.getId() + " not found."),
-					HttpStatus.NOT_FOUND);
-		}
-	}
 
 	@RequestMapping(value = "/geral/situacao", method = RequestMethod.GET)
 	public ResponseEntity<?> getSituacaoGeralQueixas() {
