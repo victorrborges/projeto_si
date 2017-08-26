@@ -26,5 +26,5 @@ public class PrefeituraController {
 		Prefeitura prefeituraAtualizada = this.prefeituraService.updatePrefeitura(prefeitura);
 		return new ResponseEntity<Prefeitura>(prefeituraAtualizada, HttpStatus.OK);
 	}
-
+	
 }

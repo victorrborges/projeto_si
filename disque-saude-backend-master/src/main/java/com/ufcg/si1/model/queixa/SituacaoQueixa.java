@@ -14,13 +14,13 @@ public enum SituacaoQueixa {
     
     
     static {
-        namesMap.put("fechada", FECHADA);
-        namesMap.put("aberta", ABERTA);
+        namesMap.put("FECHADA", FECHADA);
+        namesMap.put("ABERTA", ABERTA);
     }
     
     @JsonCreator
     public static SituacaoQueixa forValue(String value) {
-        return namesMap.get(value.toLowerCase());
+        return namesMap.get(value.toUpperCase());
     }
 
     @JsonValue

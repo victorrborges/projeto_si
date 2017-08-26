@@ -63,13 +63,22 @@ public class QueixaServiceImpl implements QueixaService {
 
 	@Override
 	public double razaoQueixas() {
-		int queixasTotais = this.findAllQueixas().size();
-		int queixasAbertas = 0;
-//		for (Queixa queixa : this.findAllQueixas()) {
-//			if (queixa.getSituacao().equals(SituacaoQueixa.ABERTA)) {
-//				queixasAbertas++;
-//			}
-//		}
+		double queixasTotais = this.findAllQueixas().size();
+		
+		if(queixasTotais == 0) {
+			return 0;
+		}
+		
+		double queixasAbertas = 0;
+		for (Queixa queixa : this.findAllQueixas()) {
+			if (queixa.getSituacao().equals(SituacaoQueixa.ABERTA)) {
+				queixasAbertas++;
+			}
+		}
+		System.out.println("queixas abertas: " + queixasAbertas);
+		System.out.println("queixas totais: " + queixasTotais);
+		System.out.println("indice: " + queixasAbertas / queixasTotais);
+		
 		return (queixasAbertas / queixasTotais);
 	}
 

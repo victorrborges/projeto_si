@@ -142,7 +142,7 @@ app.controller("loginCtrl", function ($scope, $http, toastr, $rootScope, $locati
 
 });
 
-app.controller("changeComplaintStatusCtrl", function ($scope, $http) {
+app.controller("changeComplaintStatusCtrl", function ($scope, $http, toastr) {
     $scope.complaint;
 
     $scope.searchComplaint = function (id) {
@@ -157,10 +157,8 @@ app.controller("changeComplaintStatusCtrl", function ($scope, $http) {
 
 
     $scope.updateComplaint = function (complaint) {
-      complaint.situacao = "fechada"
         $http.put("http://localhost:5000/SpringBootRestApi/api/queixa/" + complaint.id, JSON.stringify(complaint)).then(function successCallback(response) {
-            complaint = response.data;
-            console.log(complaint);
+          toastr.success("Queixa atualizada com sucesso!");
         }, function errorCallback(error) {
             $scope.complaint = null;
             console.log(error);

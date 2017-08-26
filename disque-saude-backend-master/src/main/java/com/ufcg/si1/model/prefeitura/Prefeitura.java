@@ -1,10 +1,13 @@
 package com.ufcg.si1.model.prefeitura;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -17,14 +20,50 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 
 @Entity
-public abstract class Prefeitura {
+public class Prefeitura {
 	
 	@Id
 	@GeneratedValue
 	private Long id;
 	
-	@Enumerated(EnumType.STRING)
-	private SituacaoPrefeitura situacaoPrefeitura;
+	private static Prefeitura instancia;
+	
+	@Embedded
+	private AcoesPrefeitura acoes;
+	
+	private Prefeitura(String situacao) throws Exception {
+		acoes = alteraSituacao(situacao);
+		
+	}
+
+	private AcoesPrefeitura alteraSituacao(String situacao) throws Exception {
+		if(situacao.equalsIgnoreCase("normal")) {
+			return new Normal();
+		}
+		
+		if(situacao.equalsIgnoreCase("caos")) {
+			return new Caos();
+		}
+		
+		if(situacao.equalsIgnoreCase("extra")) {
+			return new Extra();
+		}
+		
+		throw new Exception("Situacao da prefeitura invalida");
+	}
+	
+	public static Prefeitura getInstancia() {
+		if (instancia == null) {
+			try {
+				instancia = new Prefeitura("normal");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return instancia;
+		} else {
+			return instancia;
+		}
+	}
 	
 	public Long getId() {
 		return id;
@@ -33,15 +72,11 @@ public abstract class Prefeitura {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public abstract int getEficiencia(double razao);
-
-	public SituacaoPrefeitura getSituacaoPrefeitura() {
-		return situacaoPrefeitura;
+	
+	public int getEficiencia(double razao) {
+		System.out.println("razao na preifeitura: " + razao);
+		return acoes.getEficiencia(razao);
 	}
-
-	public void setSituacaoPrefeitura(SituacaoPrefeitura situacaoPrefeitura) {
-		this.situacaoPrefeitura = situacaoPrefeitura;
-	}
+	
 
 }

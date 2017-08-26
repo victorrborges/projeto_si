@@ -84,11 +84,10 @@ public class QueixaController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/{queixaId}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateQueixa(@PathVariable("queixaId") Long queixaId, @RequestBody Queixa queixa) {
-
 		try {
 			Queixa currentQueixa = queixaService.findOneQueixa(queixaId);
-
-			currentQueixa.setDescricao(queixa.getDescricao());
+			
+			currentQueixa.setSituacao(queixa.getSituacao());
 			currentQueixa.setComentario(queixa.getComentario());
 
 			queixaService.updateQueixa(currentQueixa);
@@ -133,7 +132,7 @@ public class QueixaController {
 	public ResponseEntity<?> getSituacaoGeralQueixas() {
 
 		Integer eficiencia = this.prefeituraService.getEficiencia(this.queixaService.razaoQueixas());
-
+		System.out.println(eficiencia);
 		return new ResponseEntity<ObjWrapper<Integer>>(new ObjWrapper<Integer>(eficiencia), HttpStatus.OK);
 	}
 

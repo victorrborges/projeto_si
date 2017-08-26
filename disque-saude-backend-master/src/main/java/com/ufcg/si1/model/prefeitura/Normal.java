@@ -1,6 +1,9 @@
 package com.ufcg.si1.model.prefeitura;
 
-public class Normal extends Prefeitura{
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class Normal implements AcoesPrefeitura {
 
 	@Override
 	public int getEficiencia(double razao) {

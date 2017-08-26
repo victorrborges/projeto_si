@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.ufcg.si1.model.prefeitura.Normal;
 import com.ufcg.si1.model.prefeitura.Prefeitura;
+//import com.ufcg.si1.repository.PrefeituraRepository;
 import com.ufcg.si1.repository.PrefeituraRepository;
 
 @Service("prefeituraService")
@@ -15,7 +16,7 @@ public class PrefeituraServiceImpl implements PrefeituraService{
 	
 	private Prefeitura getPrefeitura() {
 		if (prefeituraRepository.findAll().isEmpty()) {
-			return prefeituraRepository.save(new Normal());
+			return prefeituraRepository.save(Prefeitura.getInstancia());
 		}
 		return this.getSingleton();
 	}
@@ -37,7 +38,7 @@ public class PrefeituraServiceImpl implements PrefeituraService{
 
 	@Override
 	public int getEficiencia(double razao) {
-		return this.getPrefeitura().getEficiencia(razao);
+		return Prefeitura.getInstancia().getEficiencia(razao);
 	}
 	
 }
