@@ -14,9 +14,9 @@ public class Administrador {
 	private String login;
 
 	private String senha;
-	
+
 	public Administrador() {
-		
+
 	}
 
 	public Administrador(String login, String senha) {

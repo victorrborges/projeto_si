@@ -19,23 +19,8 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public Administrador cadastrar(Administrador administrador)
 			throws ObjetoJaExistenteException {
-//		if (this.existe(administrador)) {
-//			throw new ObjetoJaExistenteException("Administrador ja cadastrado");
-//		}
 		return this.adminRepository.save(administrador);
 	}
-	
-//	private boolean existe(Administrador administrador) {
-//		if (adminRepository.exists(administrador.getId())) {
-//			return true;
-//		}
-//		for (Administrador administradorBd : this.adminRepository.findAll()) {
-//			if (administrador.getLogin().equals(administradorBd.getLogin())) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 
 	@Override
 	public Administrador logar(Administrador administrador) throws ObjetoInvalidoException, ObjetoInexistenteException {

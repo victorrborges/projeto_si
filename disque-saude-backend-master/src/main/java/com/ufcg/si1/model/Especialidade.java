@@ -9,32 +9,28 @@ public class Especialidade {
 
 	@Id
 	@GeneratedValue
-    private Long id;
+	private Long id;
 
-    private String descricao;
-    
-    private Long unidadeSaudeId;
+	private String descricao;
 
-//    public Especialidade(String descricao) {
-//        this.descricao = descricao;
-//    }
-    
-    public Especialidade(String descricao, Long unidadeSaudeId) {
-        this.descricao = descricao;
-        this.unidadeSaudeId = unidadeSaudeId;
-    }
+	private Long unidadeSaudeId;
 
-    public Especialidade(){
+	public Especialidade(String descricao, Long unidadeSaudeId) {
+		this.descricao = descricao;
+		this.unidadeSaudeId = unidadeSaudeId;
+	}
 
-    }
+	public Especialidade() {
 
-    public String getDescricao() {
-        return this.descricao;
-    }
+	}
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+	public String getDescricao() {
+		return this.descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
 	public Long getId() {
 		return id;
@@ -52,5 +48,4 @@ public class Especialidade {
 		this.unidadeSaudeId = unidadeSaudeId;
 	}
 
-   
 }

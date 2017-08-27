@@ -4,17 +4,16 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Pessoa {
-	
+
 	private String nome;
-	
+
 	private String email;
-	
+
 	public Pessoa() {
-		
+
 	}
 
-	public Pessoa(String nome, String email, String rua, String uf,
-			String cidade) {
+	public Pessoa(String nome, String email, String rua, String uf, String cidade) {
 		this.nome = nome;
 		this.email = email;
 	}
@@ -34,5 +33,5 @@ public class Pessoa {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-		
+
 }

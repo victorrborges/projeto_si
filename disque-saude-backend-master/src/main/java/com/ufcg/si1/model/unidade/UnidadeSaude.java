@@ -6,37 +6,33 @@ import com.ufcg.si1.model.Endereco;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = PostoSaude.class, name = "posto"),
-        @JsonSubTypes.Type(value = HospitalAdapter.class, name = "hospital")
-})
+@JsonSubTypes({ @JsonSubTypes.Type(value = PostoSaude.class, name = "posto"),
+		@JsonSubTypes.Type(value = HospitalAdapter.class, name = "hospital") })
 @Entity
 @Inheritance
 public abstract class UnidadeSaude {
-	
+
 	@Id
 	@GeneratedValue
-    private Long id;
+	private Long id;
 
-    private String descricao;
-     
-    @Embedded
-    private Endereco endereco;
+	private String descricao;
 
-    public UnidadeSaude(String descricao) {
-        this.descricao = descricao;
-    }
-    
-    public UnidadeSaude() {
-    	
-    }
+	@Embedded
+	private Endereco endereco;
+
+	public UnidadeSaude(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public UnidadeSaude() {
+
+	}
 
 	public Long getId() {
 		return id;
@@ -54,11 +50,10 @@ public abstract class UnidadeSaude {
 		this.descricao = descricao;
 	}
 
-	
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
+
 	public Endereco getEndereco() {
 		return this.endereco;
 	}

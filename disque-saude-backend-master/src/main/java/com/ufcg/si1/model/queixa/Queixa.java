@@ -23,22 +23,22 @@ public class Queixa {
 	private Long id;
 
 	private String descricao;
-	
+
 	@Embedded
 	private Pessoa solicitante;
-	
+
 	@Embedded
 	private Endereco endereco;
 
 	private String comentario;
-	
+
 	@Enumerated(EnumType.STRING)
 	private SituacaoQueixa situacaoQueixa;
-	
+
 	public Queixa() {
 
 	}
-	
+
 	public Queixa(String descricao, Pessoa solicitante) {
 		this.descricao = descricao;
 		this.comentario = "";
@@ -54,7 +54,7 @@ public class Queixa {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -74,27 +74,26 @@ public class Queixa {
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
-	
+
 	public Pessoa getSolicitante() {
 		return this.solicitante;
 	}
-	
+
 	public void setSituacao(SituacaoQueixa situacao) {
 		this.situacaoQueixa = situacao;
-	}	
-	
+	}
+
 	public SituacaoQueixa getSituacao() {
 		return this.situacaoQueixa;
 	}
-	
+
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
+
 	public Endereco getEndereco() {
 		return this.endereco;
 	}
-		
 
 	@Override
 	public int hashCode() {
