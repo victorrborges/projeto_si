@@ -1,16 +1,21 @@
 package com.ufcg.si1.model.queixa;
 
+import javax.persistence.Entity;
+
+import com.ufcg.si1.model.Pessoa;
+
+@Entity
 public class QueixaAnimal extends Queixa {
 
 	private String tipoAnimal;
 
-	public QueixaAnimal(String descricao, Long solicitanteId, String tipoAnimal) {
-		// super(descricao, solicitanteId);
+	public QueixaAnimal(String descricao, Pessoa pessoa, String tipoAnimal) {
+		super(descricao, pessoa);
 		this.setTipoAnimal(tipoAnimal);
 	}
 
-	public QueixaAnimal(String descricao, String comentario, Long solicitanteId, String tipoAnimal) {
-		// super(descricao, comentario, solicitanteId);
+	public QueixaAnimal(String descricao, String comentario, Pessoa pessoa, String tipoAnimal) {
+		super(descricao, comentario, pessoa);
 		this.setTipoAnimal(tipoAnimal);
 	}
 

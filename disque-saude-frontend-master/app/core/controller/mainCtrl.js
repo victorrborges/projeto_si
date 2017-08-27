@@ -16,6 +16,7 @@ app.controller("searchAverangeCtrl", function ($scope, $http) {
 app.controller("registerComplaintCtrl", function ($scope, $http, toastr, $location) {
 
     $scope.registerComplaint = function (complaint) {
+      complaint.type = "queixa";
       complaint.situacao = "aberta";
 	     console.log(complaint);
         $http.post("http://localhost:5000/SpringBootRestApi/api/queixa/", JSON.stringify(complaint))
@@ -27,6 +28,19 @@ app.controller("registerComplaintCtrl", function ($scope, $http, toastr, $locati
                 console.log("Problemas ao tentar adicionar queixa.");
             });
     }
+    $scope.registerComplaintAnimal = function (complaint) {
+        complaint.type = "queixa_animal";
+        complaint.situacao = "aberta";
+           console.log(complaint);
+          $http.post("http://localhost:5000/SpringBootRestApi/api/queixa/", JSON.stringify(complaint))
+              .then(function success(response) {
+                  toastr.success("Queixa adicionada com sucesso!");
+                  $location.path('/createdcomplaint/' + response.data.id);
+              }, function error(error) {
+                  console.log(error);
+                  console.log("Problemas ao tentar adicionar queixa.");
+              });
+      }
 });
 
 app.controller("searchAverangeCtrl", function ($scope, $http) {

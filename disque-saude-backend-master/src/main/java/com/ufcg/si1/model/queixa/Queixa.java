@@ -6,16 +6,19 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.ufcg.si1.model.Endereco;
 import com.ufcg.si1.model.Pessoa;
 
-//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-//@JsonSubTypes({
-//	@JsonSubTypes.Type(value = QueixaAnimal.class, name = "queixa_animal")
-//})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({ @JsonSubTypes.Type(value = Queixa.class, name = "queixa"), 
+				@JsonSubTypes.Type(value = QueixaAnimal.class, name = "queixa_animal")})
 
 @Entity
+@Inheritance
 public class Queixa {
 
 	@Id
