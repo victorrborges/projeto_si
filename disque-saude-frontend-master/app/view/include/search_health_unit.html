@@ -25,7 +25,7 @@
                         <p>Tipo: {{unit.type}}</p>
                         <p>Número de medicos: {{unit.atendentes}}</p>
                         <p>Taxa diária de atendimentos: {{unit.taxaDiariaAtendimentos}}</p>
-                        <p>Especialidades da unidade de saúde:
+                        <p ng-show="unit.especialidades != null">Especialidades da unidade de saúde:
                             <span class="badge badge-default" ng-repeat="esp in unit.especialidades">
                                 <b>{{esp}}</b>
                             </span>

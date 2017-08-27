@@ -66,7 +66,13 @@ app.controller("searchHealthUnitCtrl", function ($scope, $http) {
             .then(function success(response) {
                 $scope.units = [];
                 for (i = 0; i < response.data.length; i++) {
-                  $scope.units.push(response.data[i]);
+                  unit = response.data[i]
+                  if(unit.especialidades != null) {
+                    unit.type = "Hospital"
+                  } else {
+                    unit.type = "Posto de Saúde"
+                  }
+                  $scope.units.push(unit);
                 }
                 console.log("Foram encontradas Unidades de saúde");
                 console.log(response.data);
