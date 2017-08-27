@@ -31,6 +31,9 @@ app.config(function ($routeProvider) {
     }).when("/change_townhall_status", {
         templateUrl : "view/include/change_townhall_status.html",
         controller : "changeTownhallStatusCtrl"
+      }).when("/register_health_unit", {
+          templateUrl : "view/include/registerHealthUnit.html",
+          controller : "registerHealthUnitCtrl"
     }).otherwise({
         redirectTo: '/'
     });

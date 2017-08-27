@@ -127,6 +127,7 @@ app.controller("loginCtrl", function ($scope, $http, toastr, $rootScope, $locati
 
 
   $scope.doLogin = function (admin) {
+    $rootScope.permissaoAdmin = true;
     console.log(JSON.stringify(admin));
     $http.post("http://localhost:5000/SpringBootRestApi/api/admin/login/", JSON.stringify(admin))
         .then(function success(response) {
@@ -175,5 +176,42 @@ app.controller("changeTownhallStatusCtrl", function ($scope, $http, toastr) {
         console.log(error);
     });
   }
+
+});
+
+app.controller("registerHealthUnitCtrl", function ($scope, $http, toastr) {
+
+  // Especialidades
+  $scope.especialidades = ['Clinica Geral', 'Pediatria', 'Obstetricia', 'Endocrinologia', 'Cardiologia'];
+
+  $scope.selection = [];
+
+  // Toggle selection for a given fruit by name
+  $scope.toggleSelection = function toggleSelection(especialidade) {
+    var idx = $scope.selection.indexOf(especialidade);
+
+    // Is currently selected
+    if (idx > -1) {
+      $scope.selection.splice(idx, 1);
+    }
+
+    // Is newly selected
+    else {
+      $scope.selection.push(especialidade);
+    }
+  };
+
+  $scope.registerUnit = function (unit, selectedEspecialidades) {
+    if(unit.tipo == 'hospital') {
+      unit.especialidades = $scope.selection;
+    }
+    
+    console.log(unit);
+
+  }
+
+
+
+
 
 });
