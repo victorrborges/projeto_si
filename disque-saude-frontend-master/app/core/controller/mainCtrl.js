@@ -127,7 +127,6 @@ app.controller("loginCtrl", function ($scope, $http, toastr, $rootScope, $locati
 
 
   $scope.doLogin = function (admin) {
-    $rootScope.permissaoAdmin = true;
     console.log(JSON.stringify(admin));
     $http.post("http://localhost:5000/SpringBootRestApi/api/admin/login/", JSON.stringify(admin))
         .then(function success(response) {
@@ -205,7 +204,7 @@ app.controller("registerHealthUnitCtrl", function ($scope, $http, toastr) {
     if(unit.tipo == 'hospital') {
       unit.especialidades = $scope.selection;
     }
-    
+
     console.log(unit);
 
   }
