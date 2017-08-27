@@ -1,15 +1,15 @@
-.html , body {
-    height: 100%;
+html {
+
 }
 
-.content {
-    min-height: 100%;
+.container {
+    max-height: 100%;
 }
 
-.footer {
-    height: 10%;
+footer {
     width: 100%;
-    position: absolute;
+    text-align: center;
+    position: fixed;
     bottom: 0px;
 }
 
