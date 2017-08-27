@@ -12,13 +12,12 @@ import exceptions.ObjetoJaExistenteException;
 
 @Service("adminService")
 public class AdminServiceImpl implements AdminService {
-	
+
 	@Autowired
 	AdminRepository adminRepository;
 
 	@Override
-	public Administrador cadastrar(Administrador administrador)
-			throws ObjetoJaExistenteException {
+	public Administrador cadastrar(Administrador administrador) throws ObjetoJaExistenteException {
 		return this.adminRepository.save(administrador);
 	}
 
@@ -40,5 +39,4 @@ public class AdminServiceImpl implements AdminService {
 		throw new ObjetoInexistenteException("Administrador nao cadastrado");
 	}
 
-	
 }

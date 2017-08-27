@@ -26,8 +26,6 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 		return this.unidadeSaudeRepository.findOne(unidadeSaudeId);
 	}
 
-
-	
 	@Override
 	public List<UnidadeSaude> findAllUnidades() {
 		return this.unidadeSaudeRepository.findAll();
@@ -39,43 +37,39 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 		this.unidadeSaudeRepository.save(unidadeSaude);
 	}
 
-
-
 	@Override
 	public List<UnidadeSaude> findByBairro(String bairro) throws ObjetoInexistenteException {
-		
+
 		List<UnidadeSaude> unidades = this.findAllUnidades();
 		List<UnidadeSaude> unidadesDoBairro = new ArrayList<UnidadeSaude>();
-		
-		for(UnidadeSaude unidadeSaude : unidades) {
-			if(unidadeSaude.getEndereco().getCidade().equals(bairro)) {
+
+		for (UnidadeSaude unidadeSaude : unidades) {
+			if (unidadeSaude.getEndereco().getCidade().equals(bairro)) {
 				unidadesDoBairro.add(unidadeSaude);
-	
+
 			}
-			
-		
+
 		}
 		return unidadesDoBairro;
 	}
-	
+
 	@Override
 	public List<UnidadeSaude> findByEspecialidade(String especialidadeBuscada) {
-		
+
 		List<UnidadeSaude> unidades = this.findAllUnidades();
 		List<UnidadeSaude> unidadesEspecialidade = new ArrayList<UnidadeSaude>();
-		
-		for(UnidadeSaude unidadeSaude : unidades) {
-			if(unidadeSaude instanceof HospitalAdapter) {
+
+		for (UnidadeSaude unidadeSaude : unidades) {
+			if (unidadeSaude instanceof HospitalAdapter) {
 				HospitalAdapter hospital = (HospitalAdapter) unidadeSaude;
-				for(String especialidade : hospital.getEspecialidades()) {
-					if(especialidade.equalsIgnoreCase(especialidadeBuscada)) {
+				for (String especialidade : hospital.getEspecialidades()) {
+					if (especialidade.equalsIgnoreCase(especialidadeBuscada)) {
 						unidadesEspecialidade.add(hospital);
 					}
 				}
-	
+
 			}
-			
-		
+
 		}
 		return unidadesEspecialidade;
 	}

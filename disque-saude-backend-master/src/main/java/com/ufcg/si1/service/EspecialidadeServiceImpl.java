@@ -16,59 +16,60 @@ import java.util.List;
 
 @Service("especialidadeService")
 public class EspecialidadeServiceImpl implements EspecialidadeService {
-	
+
 	@Autowired
 	EspecialidadeRepository especialidadeRespository;
 
-    @Override
-    public Especialidade findOneEspecialidade(Long espId) throws Rep,ObjetoInexistenteException {
-    	Especialidade especialidadeProcurada = this.especialidadeRespository.findOne(espId);
-    	
-    	if (especialidadeProcurada != null) return especialidadeProcurada;
-		else throw new ObjetoInexistenteException("Especialidade nao encontrada");
-    }
+	@Override
+	public Especialidade findOneEspecialidade(Long espId) throws Rep, ObjetoInexistenteException {
+		Especialidade especialidadeProcurada = this.especialidadeRespository.findOne(espId);
 
-    @Override
-    public Collection<Especialidade> findAllEspecialidades() {
-    	return this.especialidadeRespository.findAll();
-    }
+		if (especialidadeProcurada != null)
+			return especialidadeProcurada;
+		else
+			throw new ObjetoInexistenteException("Especialidade nao encontrada");
+	}
 
-    @Override
-    public void save(Especialidade esp) throws ObjetoJaExistenteException {
-    	if (this.existe(esp.getId())) {
-    		throw new ObjetoJaExistenteException("Objeto ja existente");
-    	}
-    	this.especialidadeRespository.save(esp);
-    }
+	@Override
+	public Collection<Especialidade> findAllEspecialidades() {
+		return this.especialidadeRespository.findAll();
+	}
 
-    private boolean existe(Long espId) {
-        return (this.especialidadeRespository.findOne(espId) != null);
-    }
-    
-    public List<Especialidade> getEspecialidadesDaUnidade(Long unidadeSaudeId) {
-    	List<Especialidade> especialidadesDaUnidade = new ArrayList<Especialidade>();
-    	for(Especialidade especialidade : this.findAllEspecialidades()) {
-    		if (especialidade.getUnidadeSaudeId() == unidadeSaudeId) {
-    			especialidadesDaUnidade.add(especialidade);
-    		}
-    	}
-    	return especialidadesDaUnidade;
-    }
+	@Override
+	public void save(Especialidade esp) throws ObjetoJaExistenteException {
+		if (this.existe(esp.getId())) {
+			throw new ObjetoJaExistenteException("Objeto ja existente");
+		}
+		this.especialidadeRespository.save(esp);
+	}
+
+	private boolean existe(Long espId) {
+		return (this.especialidadeRespository.findOne(espId) != null);
+	}
+
+	public List<Especialidade> getEspecialidadesDaUnidade(Long unidadeSaudeId) {
+		List<Especialidade> especialidadesDaUnidade = new ArrayList<Especialidade>();
+		for (Especialidade especialidade : this.findAllEspecialidades()) {
+			if (especialidade.getUnidadeSaudeId() == unidadeSaudeId) {
+				especialidadesDaUnidade.add(especialidade);
+			}
+		}
+		return especialidadesDaUnidade;
+	}
 
 	public List<Long> getUnidadesPorEspecialidade(String descricao) throws ObjetoInexistenteException {
 		List<Long> unidades = new ArrayList<Long>();
-		for(Especialidade especialidade : this.findAllEspecialidades()) {
-			if(especialidade.getDescricao().equals(descricao)) {
+		for (Especialidade especialidade : this.findAllEspecialidades()) {
+			if (especialidade.getDescricao().equals(descricao)) {
 				unidades.add(especialidade.getUnidadeSaudeId());
 			}
 		}
-		
-		if(unidades.isEmpty()) {
+
+		if (unidades.isEmpty()) {
 			throw new ObjetoInexistenteException("Nenhuma unidade com essa especialidade");
 		}
-		
+
 		return unidades;
 	}
-
 
 }

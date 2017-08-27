@@ -11,17 +11,17 @@ import exceptions.ObjetoJaExistenteException;
 public interface QueixaService {
 
 	public List<Queixa> findAllQueixas();
-	
+
 	public void save(Queixa queixa) throws ObjetoJaExistenteException;
-	
+
 	public void save(QueixaAnimal queixaAnimal) throws ObjetoJaExistenteException;
 
-    public Queixa findOneQueixa(Long id) throws ObjetoInexistenteException;
+	public Queixa findOneQueixa(Long id) throws ObjetoInexistenteException;
 
 	public void updateQueixa(Queixa user) throws ObjetoInexistenteException;
 
 	public void deleteQueixa(Long id) throws ObjetoInexistenteException;
-	
+
 	public double razaoQueixas();
-	
+
 }
