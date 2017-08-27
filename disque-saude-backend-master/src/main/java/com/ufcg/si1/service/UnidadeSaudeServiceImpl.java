@@ -1,8 +1,10 @@
 package com.ufcg.si1.service;
 
+import com.ufcg.si1.model.unidade.HospitalAdapter;
 import com.ufcg.si1.model.unidade.UnidadeSaude;
 import com.ufcg.si1.repository.UnidadeSaudeRepository;
 
+import br.edu.ufcg.Hospital;
 import exceptions.ObjetoInexistenteException;
 import exceptions.ObjetoJaExistenteException;
 import exceptions.Rep;
@@ -21,16 +23,10 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 
 	@Override
 	public UnidadeSaude findOneUnidade(Long unidadeSaudeId) throws ObjetoInexistenteException {
-		if (!this.existe(unidadeSaudeId)) {
-			throw new ObjetoInexistenteException("Unidade de saude inexistente");
-		}
 		return this.unidadeSaudeRepository.findOne(unidadeSaudeId);
 	}
 
-	private boolean existe(Long unidadeSaudeId) {
 
-		return this.unidadeSaudeRepository.exists(unidadeSaudeId);
-	}
 	
 	@Override
 	public List<UnidadeSaude> findAllUnidades() {
@@ -39,14 +35,6 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 
 	@Override
 	public void save(UnidadeSaude unidadeSaude) throws Rep, ObjetoJaExistenteException {
-
-//		if (unidadeSaude == null) {
-//			throw new Rep("Erro!");
-//		} 
-//		
-//		if(this.existe(unidadeSaude.getId())) {
-//			throw new ObjetoJaExistenteException("Unidade de saude ja existente");
-//		}
 
 		this.unidadeSaudeRepository.save(unidadeSaude);
 	}
@@ -68,6 +56,28 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 		
 		}
 		return unidadesDoBairro;
+	}
+	
+	@Override
+	public List<UnidadeSaude> findByEspecialidade(String especialidadeBuscada) {
+		
+		List<UnidadeSaude> unidades = this.findAllUnidades();
+		List<UnidadeSaude> unidadesEspecialidade = new ArrayList<UnidadeSaude>();
+		
+		for(UnidadeSaude unidadeSaude : unidades) {
+			if(unidadeSaude instanceof HospitalAdapter) {
+				HospitalAdapter hospital = (HospitalAdapter) unidadeSaude;
+				for(String especialidade : hospital.getEspecialidades()) {
+					if(especialidade.equalsIgnoreCase(especialidadeBuscada)) {
+						unidadesEspecialidade.add(hospital);
+					}
+				}
+	
+			}
+			
+		
+		}
+		return unidadesEspecialidade;
 	}
 
 }

@@ -62,7 +62,7 @@ public class UnidadeSaudeController {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/unidade/busca/{bairro}", method = RequestMethod.GET)
+	@RequestMapping(value = "/unidade/busca/bairro/{bairro}", method = RequestMethod.GET)
 	public ResponseEntity<?> consultarUnidadeSaudePorBairro(@PathVariable("bairro") String bairro) {
 		try {
 			List<UnidadeSaude>unidades = unidadeSaudeService.findByBairro(bairro);
@@ -72,6 +72,14 @@ public class UnidadeSaudeController {
 					HttpStatus.NOT_FOUND);
 		}
 		
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/unidade/busca/especialidade/{especialidade}", method = RequestMethod.GET)
+	public ResponseEntity<?> consultarUnidadeSaudePorEspecialidade(@PathVariable("especialidade") String especialidade) {
+		System.out.println(especialidade);
+		List<UnidadeSaude>unidades = unidadeSaudeService.findByEspecialidade(especialidade);
+		return new ResponseEntity<List<UnidadeSaude>>(unidades, HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

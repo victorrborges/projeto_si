@@ -17,5 +17,7 @@ public interface UnidadeSaudeService {
     void save(UnidadeSaude us)throws Rep,ObjetoJaExistenteException;
 
     List<UnidadeSaude> findByBairro(String bairro) throws ObjetoInexistenteException;
+    
+    List<UnidadeSaude> findByEspecialidade(String especialidadeBuscada);
 
 }

@@ -13,6 +13,9 @@ app.config(function ($routeProvider) {
     }).when("/search_health_unit", {
         templateUrl: "view/include/search_health_unit.html",
         controller : "searchHealthUnitCtrl",
+    }).when("/search_health_unit_specialty", {
+          templateUrl: "view/include/search_health_unit_specialty.html",
+          controller : "searchHealthUnitSpecialtyCtrl",
     }).when("/search_average",{
         templateUrl : "view/include/search_average_per_patient.html",
         controller: "searchAverangeCtrl"
@@ -31,7 +34,7 @@ app.config(function ($routeProvider) {
     }).when("/change_townhall_status", {
         templateUrl : "view/include/change_townhall_status.html",
         controller : "changeTownhallStatusCtrl"
-      }).when("/register_health_unit", {
+    }).when("/register_health_unit", {
           templateUrl : "view/include/registerHealthUnit.html",
           controller : "registerHealthUnitCtrl"
     }).otherwise({
