@@ -20,6 +20,9 @@
         <div class="container">
             <div ng-view=""></div>
         </div>
+        <footer>
+            <div ng-include="'view/include/footer.html'"></div>
+        </footer>
 
         <!-- Bower scripts: -->
         <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -36,7 +39,5 @@
         <script src="core/app.routes.js"></script>
         <script src="core/controller/mainCtrl.js"></script>
     </body>
-    <footer>
-        <div ng-include="'view/include/footer.html'"></div>
-    </footer>
+    
 </html>
