@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import com.ufcg.si1.model.unidade.HospitalAdapter;
 import com.ufcg.si1.model.unidade.PostoSaude;
 import com.ufcg.si1.model.unidade.UnidadeSaude;
 import com.ufcg.si1.service.UnidadeSaudeService;
@@ -45,14 +42,12 @@ public class UnidadeSaudeController {
 		}
 	}
 
-	// how to save a subclass object?
 	@RequestMapping(value = "/unidade/", method = RequestMethod.POST)
 	public ResponseEntity<String> incluirUnidadeSaude(@RequestBody UnidadeSaude unidadeSaude, UriComponentsBuilder ucBuilder) {
 		try {
 			unidadeSaudeService.save(unidadeSaude);
 			
 			HttpHeaders headers = new HttpHeaders();
-			//headers.setLocation(ucBuilder.path("/api/unidade/{id}").buildAndExpand(unidadeSaude.getId()).toUri());
 			return new ResponseEntity<String>( HttpStatus.CREATED);
 		} catch (Rep e) {
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
