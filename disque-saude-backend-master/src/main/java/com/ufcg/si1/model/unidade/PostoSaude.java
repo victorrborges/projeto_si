@@ -1,6 +1,8 @@
 package com.ufcg.si1.model.unidade;
 
+import javax.persistence.Entity;
 
+@Entity
 public class PostoSaude extends UnidadeSaude{
     private int atendentes;
 

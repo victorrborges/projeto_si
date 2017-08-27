@@ -39,13 +39,13 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 	@Override
 	public void save(UnidadeSaude unidadeSaude) throws Rep, ObjetoJaExistenteException {
 
-		if (unidadeSaude == null) {
-			throw new Rep("Erro!");
-		} 
-		
-		if(this.existe(unidadeSaude.getId())) {
-			throw new ObjetoJaExistenteException("Unidade de saude ja existente");
-		}
+//		if (unidadeSaude == null) {
+//			throw new Rep("Erro!");
+//		} 
+//		
+//		if(this.existe(unidadeSaude.getId())) {
+//			throw new ObjetoJaExistenteException("Unidade de saude ja existente");
+//		}
 
 		this.unidadeSaudeRepository.save(unidadeSaude);
 	}

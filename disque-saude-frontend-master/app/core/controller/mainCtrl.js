@@ -200,12 +200,19 @@ app.controller("registerHealthUnitCtrl", function ($scope, $http, toastr) {
     }
   };
 
-  $scope.registerUnit = function (unit, selectedEspecialidades) {
-    if(unit.tipo == 'hospital') {
+  $scope.registerUnit = function (unit) {
+    if(unit.type == 'hospital') {
       unit.especialidades = $scope.selection;
     }
 
     console.log(unit);
+
+    $http.post("http://localhost:5000/SpringBootRestApi/api/unidade/", JSON.stringify(unit)).then(function successCallback(response) {
+      toastr.success("Situação da prefeitura atualizada com sucesso!");
+    }, function errorCallback(error) {
+        console.log(error);
+    });
+
 
   }
 

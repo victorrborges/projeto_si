@@ -16,8 +16,8 @@
                   <div class="col-sm-10">
                   <form>
                     <label >Tipo de Unidade: </label>
-                    <input type="radio" name="content" ng-model="unit.tipo" value="posto"> Posto
-                    <input  type="radio" name="content" ng-model="unit.tipo" value="hospital"> Hospital
+                    <input type="radio" name="content" ng-model="unit.type" value="posto"> Posto
+                    <input  type="radio" name="content" ng-model="unit.type" value="hospital"> Hospital
                   </form>
                 </div>
                   <div class="col-sm-10">
@@ -27,7 +27,7 @@
                     <label for="taxaAtendimentos" >Taxa Diária de Atendimentos:</label>
                     <input id="taxaAtendimentos" ng-model="unit.taxaDiariaAtendimentos"></input>
                   </div>
-                    <div ng-show="unit.tipo == 'hospital'">
+                    <div ng-show="unit.type == 'hospital'">
                       <div class="col-sm-10">
                         <form>
                           <label >Especialidades: </label>
@@ -45,7 +45,7 @@
                     </div>
                   </div>
                   </fieldset>
-                  <button class="btn btn-primary btn-block" ng-click="registerUnit(unit, selectedEspecialidades)">Adicionar Unidade</button>
+                  <button class="btn btn-primary btn-block" ng-click="registerUnit(unit)">Adicionar Unidade</button>
                 </div>
         </form>
     </div>

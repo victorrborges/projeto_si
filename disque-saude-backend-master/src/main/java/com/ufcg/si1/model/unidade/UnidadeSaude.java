@@ -8,15 +8,16 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PostoSaude.class, name = "posto"),
         @JsonSubTypes.Type(value = HospitalAdapter.class, name = "hospital")
 })
-
 @Entity
-public class UnidadeSaude {
+@Inheritance
+public abstract class UnidadeSaude {
 	
 	@Id
 	@GeneratedValue
