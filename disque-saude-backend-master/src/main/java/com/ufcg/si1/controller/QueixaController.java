@@ -35,10 +35,6 @@ public class QueixaController {
 	@Autowired
 	private PrefeituraService prefeituraService = new PrefeituraServiceImpl();
 
-
-	// -------------------Retrieve All
-	// Complaints---------------------------------------------
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/", method = RequestMethod.GET)
 	public ResponseEntity<List<Queixa>> listAllQueixas() {
@@ -51,34 +47,17 @@ public class QueixaController {
 		return new ResponseEntity<List<Queixa>>(queixas, HttpStatus.OK);
 	}
 
-	// -------------------Abrir uma
-	// Queixa-------------------------------------------
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/", method = RequestMethod.POST)
 	public ResponseEntity<?> abrirQueixa(@RequestBody Queixa queixa, UriComponentsBuilder ucBuilder) {
 		try {
 			queixaService.save(queixa);
 		} catch (ObjetoJaExistenteException e) {
-			return new ResponseEntity(new CustomErrorType("Esta queixa já existe"),
-					HttpStatus.CONFLICT);
+			return new ResponseEntity(new CustomErrorType("Esta queixa já existe"), HttpStatus.CONFLICT);
 		}
 
 		return new ResponseEntity<Object>(queixa, HttpStatus.CREATED);
 	}
-	
-//	@SuppressWarnings({ "unchecked", "rawtypes" })
-//	@RequestMapping(value = "/queixa/", method = RequestMethod.POST)
-//	public ResponseEntity<?> abrirQueixa(@RequestBody QueixaAnimal queixaAnimal, UriComponentsBuilder ucBuilder) {
-//		try {
-//			queixaService.save(queixaAnimal);
-//		} catch (ObjetoJaExistenteException e) {
-//			return new ResponseEntity(new CustomErrorType("Esta queixa já existe"),
-//					HttpStatus.CONFLICT);
-//		}
-//
-//		return new ResponseEntity<Object>(queixaAnimal, HttpStatus.CREATED);
-//	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/queixa/{queixaId}", method = RequestMethod.GET)
@@ -99,7 +78,7 @@ public class QueixaController {
 	public ResponseEntity<?> updateQueixa(@PathVariable("queixaId") Long queixaId, @RequestBody Queixa queixa) {
 		try {
 			Queixa currentQueixa = queixaService.findOneQueixa(queixaId);
-			
+
 			currentQueixa.setSituacao(queixa.getSituacao());
 			currentQueixa.setComentario(queixa.getComentario());
 
@@ -127,7 +106,6 @@ public class QueixaController {
 		}
 
 	}
-
 
 	@RequestMapping(value = "/geral/situacao", method = RequestMethod.GET)
 	public ResponseEntity<?> getSituacaoGeralQueixas() {
