@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ufcg.si1.model.queixa.Queixa;
+import com.ufcg.si1.model.queixa.QueixaAnimal;
 import com.ufcg.si1.model.queixa.SituacaoQueixa;
 import com.ufcg.si1.repository.QueixaRepository;
 
@@ -31,6 +32,10 @@ public class QueixaServiceImpl implements QueixaService {
         this.queixaRepository.save(queixa);       
     }
 
+    public void save(QueixaAnimal queixaAnimal) throws ObjetoJaExistenteException {
+    	this.queixaRepository.save(queixaAnimal);
+    }
+    
     public void updateQueixa(Queixa queixa) throws ObjetoInexistenteException {
     	if (!this.existe(queixa)) {
     		throw new ObjetoInexistenteException("Queixa nao existente");
