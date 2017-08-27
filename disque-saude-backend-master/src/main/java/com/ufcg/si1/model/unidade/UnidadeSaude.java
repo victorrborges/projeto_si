@@ -26,16 +26,12 @@ public abstract class UnidadeSaude {
     private Long id;
 
     private String descricao;
-    
-    @Enumerated(EnumType.STRING)
-    private TipoUnidade tipoUnidade;
-    
+     
     @Embedded
     private Endereco endereco;
 
-    public UnidadeSaude(String descricao, TipoUnidade tipoUnidade) {
+    public UnidadeSaude(String descricao) {
         this.descricao = descricao;
-        this.tipoUnidade = tipoUnidade;
     }
     
     public UnidadeSaude() {
@@ -58,13 +54,6 @@ public abstract class UnidadeSaude {
 		this.descricao = descricao;
 	}
 
-	public TipoUnidade getTipoUnidade() {
-		return tipoUnidade;
-	}
-
-	public void setTipoUnidade(TipoUnidade tipoUnidade) {
-		this.tipoUnidade = tipoUnidade;
-	}
 	
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;

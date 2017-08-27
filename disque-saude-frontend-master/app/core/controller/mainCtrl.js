@@ -208,7 +208,7 @@ app.controller("registerHealthUnitCtrl", function ($scope, $http, toastr) {
     console.log(unit);
 
     $http.post("http://localhost:5000/SpringBootRestApi/api/unidade/", JSON.stringify(unit)).then(function successCallback(response) {
-      toastr.success("Situação da prefeitura atualizada com sucesso!");
+      toastr.success("Unidade de saude adicionada com sucesso!");
     }, function errorCallback(error) {
         console.log(error);
     });
