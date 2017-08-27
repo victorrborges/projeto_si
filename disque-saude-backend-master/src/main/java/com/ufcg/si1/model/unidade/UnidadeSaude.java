@@ -2,7 +2,9 @@ package com.ufcg.si1.model.unidade;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.ufcg.si1.model.Endereco;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,6 +29,9 @@ public abstract class UnidadeSaude {
     
     @Enumerated(EnumType.STRING)
     private TipoUnidade tipoUnidade;
+    
+    @Embedded
+    private Endereco endereco;
 
     public UnidadeSaude(String descricao, TipoUnidade tipoUnidade) {
         this.descricao = descricao;
@@ -59,5 +64,13 @@ public abstract class UnidadeSaude {
 
 	public void setTipoUnidade(TipoUnidade tipoUnidade) {
 		this.tipoUnidade = tipoUnidade;
+	}
+	
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+	
+	public Endereco getEndereco() {
+		return this.endereco;
 	}
 }
