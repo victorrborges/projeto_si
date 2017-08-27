@@ -20,14 +20,14 @@
             <ul class="list-group">
                 <div class="list-group-item row" ng-repeat="unit in units">
                     <div class="col-lg-12">
-                        <h2 class="text-info">Unidade do Bairro: {{unit.descricao}}</h2>
-                        <p>Código: {{unit.codigo}}</p>
+                        <h2 class="text-info">Unidade do Bairro: {{unit.endereco.cidade}}</h2>
+                        <p>Descrição: {{unit.descricao}}</p>
                         <p>Tipo: {{unit.type}}</p>
-                        <p>Número de medicos: {{unit.numeroMedicos}}</p>
-                        <p>Número de pacientes por dia: {{unit.numeroPacientesDia}}</p>
+                        <p>Número de medicos: {{unit.atendentes}}</p>
+                        <p>Taxa diária de atendimentos: {{unit.taxaDiariaAtendimentos}}</p>
                         <p>Especialidades da unidade de saúde:
                             <span class="badge badge-default" ng-repeat="esp in unit.especialidades">
-                                <b>{{esp.descricao}}</b>
+                                <b>{{esp}}</b>
                             </span>
                         </p>
                     </div>

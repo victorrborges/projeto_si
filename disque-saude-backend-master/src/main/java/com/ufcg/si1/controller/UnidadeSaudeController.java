@@ -62,11 +62,11 @@ public class UnidadeSaudeController {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/unidade/busca", method = RequestMethod.GET)
-	public ResponseEntity<?> consultarUnidadeSaudePorBairro(@RequestParam(value = "bairro", required = true) String bairro) {
+	@RequestMapping(value = "/unidade/busca/{bairro}", method = RequestMethod.GET)
+	public ResponseEntity<?> consultarUnidadeSaudePorBairro(@PathVariable("bairro") String bairro) {
 		try {
-			UnidadeSaude unidadeSaude = unidadeSaudeService.findByBairro(bairro);
-			return new ResponseEntity<UnidadeSaude>((UnidadeSaude) unidadeSaude, HttpStatus.OK);
+			List<UnidadeSaude>unidades = unidadeSaudeService.findByBairro(bairro);
+			return new ResponseEntity<List<UnidadeSaude>>(unidades, HttpStatus.OK);
 		} catch (ObjetoInexistenteException e) {
 			return new ResponseEntity(new CustomErrorType("Unidade with bairro " + bairro + " not found"),
 					HttpStatus.NOT_FOUND);

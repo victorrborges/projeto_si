@@ -10,6 +10,7 @@ import exceptions.Rep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("unidadeSaudeService")
@@ -53,17 +54,20 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
 
 
 	@Override
-	public UnidadeSaude findByBairro(String bairro) throws ObjetoInexistenteException {
+	public List<UnidadeSaude> findByBairro(String bairro) throws ObjetoInexistenteException {
 		
 		List<UnidadeSaude> unidades = this.findAllUnidades();
+		List<UnidadeSaude> unidadesDoBairro = new ArrayList<UnidadeSaude>();
 		
 		for(UnidadeSaude unidadeSaude : unidades) {
-			if(unidadeSaude.getDescricao().equals(bairro)) {
-				return unidadeSaude;
+			if(unidadeSaude.getEndereco().getCidade().equals(bairro)) {
+				unidadesDoBairro.add(unidadeSaude);
+	
 			}
-		}
+			
 		
-		throw new ObjetoInexistenteException("Unidade de saude nao existente");
+		}
+		return unidadesDoBairro;
 	}
 
 }
