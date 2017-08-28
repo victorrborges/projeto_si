@@ -8,6 +8,10 @@ import com.ufcg.si1.model.Pessoa;
 public class QueixaAnimal extends Queixa {
 
 	private String tipoAnimal;
+	
+	public QueixaAnimal() {
+		
+	}
 
 	public QueixaAnimal(String descricao, Pessoa pessoa, String tipoAnimal) {
 		super(descricao, pessoa);
